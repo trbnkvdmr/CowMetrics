@@ -12,8 +12,11 @@ import com.opencsv.CSVWriter;
 
 public class CsvParser {
 	
-	public void MergeCsv(File FOLDER, File OUTPUTCSV) throws FileNotFoundException{
+	public void MergeCsv(String FOLDER_PATH, String OUTPUTCSV_PATH) throws FileNotFoundException{
 			
+		File FOLDER = new File(FOLDER_PATH);
+		File OUTPUTCSV = new File(OUTPUTCSV_PATH);
+		
 		List<String[]> lines = new ArrayList<String[]>();
 		
 		for (File file: FOLDER.listFiles()){

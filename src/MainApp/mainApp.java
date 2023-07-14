@@ -1,21 +1,14 @@
 package MainApp;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import Gui.mainwindow;
-import Settings.Settings;
-import csvParser.CsvParser;
 
-public class mainApp {
-	public static void main(String[] args) throws FileNotFoundException {
+public class mainApp{
+	public static void main(String[] args) throws IOException {
 		
-		mainwindow window = new mainwindow();
-		window.Gui();
-				
-//		Settings settings = new Settings();
-//		CsvParser csvparse = new CsvParser();
-		/////////////////////////////////////
+		mainwindow mainwindow = new mainwindow();
+		mainwindow.createmainwindow();
 		
-		//csvparse.MergeCsv(settings.FOLDER,settings.OUTPUTCSV);
 	}
 }

@@ -23,29 +23,24 @@ import Settings.Settings;
 import csvParser.CsvParser;
 
 public class mainwindow  extends JFrame{
-	
-
 	/**
 	 * 
 	 */
-	
 	private static final long serialVersionUID = 1L;
 	protected static String Folder = null;
-
 
 	public void createmainwindow() throws IOException{
 		JFrame window = new JFrame("CowMetricsAnalyzer");
 		ImageIcon icon = new ImageIcon("E:\\Work\\CowMetrics\\src\\Source\\logo.png");
-		window.setIconImage(icon.getImage());
 		createUI(window);
-		
+		window.setIconImage(icon.getImage());	
 		window.setSize(500,350);
 		window.setTitle("Cow metrics analyzer");
 		window.setLocationRelativeTo(null);
 		window.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		window.setVisible(true);
+		window.setResizable(false);
 	}
-	
 	
 	public void createUI(JFrame window) throws IOException {
 		JLabel label = new JLabel ("Folder :");
@@ -57,8 +52,8 @@ public class mainwindow  extends JFrame{
 		button2.setBackground(new Color(83,130,52));
 		button2.setForeground(Color.WHITE);
 		
-		BufferedImage myPicture = ImageIO.read(new File("E:\\Work\\CowMetrics\\src\\Source\\logo1.jpg"));
-		Image image = myPicture.getScaledInstance(450, 270, Image.SCALE_SMOOTH);
+		BufferedImage myPicture = ImageIO.read(new File("E:\\Work\\CowMetrics\\src\\Source\\logo1+.jpg"));
+		Image image = myPicture.getScaledInstance(480, 270, Image.SCALE_SMOOTH);
 		JLabel picLabel = new JLabel(new ImageIcon(image));
 				
 		JPanel panel = new JPanel();
@@ -102,9 +97,7 @@ public class mainwindow  extends JFrame{
             public void actionPerformed(ActionEvent e) {
             	Settings settings = new Settings();
             	CsvParser csvparse = new CsvParser();
-            	
-            	settings.setFolder(Folder);
-            	            	            	
+            	settings.setFolder(Folder);          	            	
             	try {
 					csvparse.MergeCsv(settings.FOLDER_PATH,settings.OUTPUTCSV_PATH);
 				} catch (FileNotFoundException e1) {
@@ -112,9 +105,7 @@ public class mainwindow  extends JFrame{
 				}
             }
         });
-
-
-         
+        
         pack();
         window.getContentPane().add(panel);
 	}

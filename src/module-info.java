@@ -6,6 +6,7 @@
  *
  */
 module CowMetrics {
-	requires opencsv;
+	
 	requires java.desktop;
+	requires opencsv;
 }

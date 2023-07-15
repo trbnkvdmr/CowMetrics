@@ -30,8 +30,8 @@ public class mainwindow  extends JFrame{
 	protected static String Folder = null;
 
 	public void createmainwindow() throws IOException{
-		JFrame window = new JFrame("CowMetricsAnalyzer");
-		ImageIcon icon = new ImageIcon("E:\\Work\\CowMetrics\\src\\Source\\logo.png");
+		JFrame window = new JFrame();
+		ImageIcon icon = new ImageIcon("./src/Source/logo.png");
 		createUI(window);
 		window.setIconImage(icon.getImage());	
 		window.setSize(500,350);
@@ -49,10 +49,17 @@ public class mainwindow  extends JFrame{
 		JButton button2 = new JButton("Go ahead");
 		button1.setBackground(new Color(83,130,52));
 		button1.setForeground(Color.WHITE);
+		button1.setBorderPainted(false);
+		button1.setFocusPainted(false);
+		button1.setContentAreaFilled(true);
 		button2.setBackground(new Color(83,130,52));
 		button2.setForeground(Color.WHITE);
+		button2.setBorderPainted(false);
+		button2.setFocusPainted(false);
+		button2.setContentAreaFilled(true);
 		
-		BufferedImage myPicture = ImageIO.read(new File("E:\\Work\\CowMetrics\\src\\Source\\logo1+.jpg"));
+		
+		BufferedImage myPicture = ImageIO.read(new File("./src/Source/logo1+.jpg"));
 		Image image = myPicture.getScaledInstance(480, 270, Image.SCALE_SMOOTH);
 		JLabel picLabel = new JLabel(new ImageIcon(image));
 				

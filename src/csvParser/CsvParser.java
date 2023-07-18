@@ -11,7 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.opencsv.CSVParser;
+import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
 
 public class CsvParser {
@@ -42,14 +45,23 @@ public class CsvParser {
 		}
 	}
 	
-	 public <T> void getDataforFFT(T OUTPUTCSV_PATH) throws IOException {
-		Reader reader = Files.newBufferedReader(Paths.get(OUTPUTCSV_PATH + "/allinone.csv"));
-		try (CSVReader csvReader = new CSVReader(reader)) {
-			String[] record;
-			
-			while((record = csvReader.readNext()) != null) {
-				System.out.println(record[0]);
-			}
+	 public void getData(String OUTPUTCSV_PATH) throws IOException {
+		 Reader reader = Files.newBufferedReader(Paths.get(OUTPUTCSV_PATH + "/allinone.csv"));
+		 
+		 CSVParser parser = new CSVParserBuilder()
+			        .withSeparator(';')
+			        .build();
+		 
+		 CSVReader csvReader = new CSVReaderBuilder(reader)
+			        .withCSVParser(parser)
+			        .build();
+
+		 List<String[]> records = csvReader.readAll();
+		 
+		 for (String[] record : records) {
+			 System.out.println(record[0] +"\t"+ record[1] +"\t"+ record[2] +"\t"+ record[3]);
+		 }
+
 		}		
-	}
 }
+

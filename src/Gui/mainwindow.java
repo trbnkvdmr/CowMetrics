@@ -126,16 +126,16 @@ public class mainwindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Settings settings = new Settings();
 				CsvParser csvparse = new CsvParser();
-				String path = settings.OUTPUTCSV_PATH;
 				
+				settings.setFolder(Folder);
+				settings.setOUTPUTCSV(Folder);
+								
 				try {
-					csvparse.<String>getDataforFFT(path);
+					csvparse.getData(settings.OUTPUTCSV_PATH);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				
 			}
-
 		});
 
 		pack();

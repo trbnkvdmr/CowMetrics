@@ -2,7 +2,6 @@ package csvParser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
@@ -43,14 +42,14 @@ public class CsvParser {
 		}
 	}
 	
-	<T> void getDataforFFT(String OUTPUTCSV_PATH) throws IOException {
+	 public <T> void getDataforFFT(T OUTPUTCSV_PATH) throws IOException {
 		Reader reader = Files.newBufferedReader(Paths.get(OUTPUTCSV_PATH + "/allinone.csv"));
-		CSVReader csvReader = new CSVReader(reader);
-		
-		String[] record;
-		
-		while((record = csvReader.readNext()) != null) {
-			System.out.println(record[0]);
+		try (CSVReader csvReader = new CSVReader(reader)) {
+			String[] record;
+			
+			while((record = csvReader.readNext()) != null) {
+				System.out.println(record[0]);
+			}
 		}		
 	}
 }

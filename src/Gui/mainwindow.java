@@ -124,8 +124,18 @@ public class mainwindow extends JFrame {
 		button3.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				/// to do 
+				Settings settings = new Settings();
+				CsvParser csvparse = new CsvParser();
+				String path = settings.OUTPUTCSV_PATH;
+				
+				try {
+					csvparse.<String>getDataforFFT(path);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				
 			}
+
 		});
 
 		pack();

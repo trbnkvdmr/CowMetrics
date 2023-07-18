@@ -10,6 +10,13 @@
 		<artifactId>opencsv</artifactId>
 		<version>4.3.2</version>
 	</dependency>
+	
+	<dependency>
+		<groupId>com.github.yannrichet</groupId>
+		<artifactId>JMathPlot</artifactId>
+		<version>1.0.1</version>
+	</dependency>
+	
   </dependencies>
   
    <build>
@@ -23,6 +30,7 @@
       </resource>
     </resources>
     <plugins>
+    
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
@@ -30,6 +38,23 @@
           <release>18</release>
         </configuration>
       </plugin>
+      
+      <plugin>
+		<!-- Build an executable JAR -->
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-jar-plugin</artifactId>
+		<version>3.1.0</version>
+		<configuration>
+			<archive>
+				<manifest>
+					<addClasspath>true</addClasspath>
+					<!-- here we specify that we want to use the main method within the App class -->
+					<mainClass>MainApp.mainApp</mainClass>
+				</manifest>
+			</archive>
+		</configuration>
+	</plugin> 
+
     </plugins>
   </build>
 </project>

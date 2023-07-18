@@ -9,4 +9,5 @@ module CowMetrics {
 	
 	requires java.desktop;
 	requires opencsv;
+	requires JMathPlot;
 }

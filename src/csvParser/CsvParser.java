@@ -2,18 +2,23 @@ package csvParser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
 public class CsvParser {
 	public void MergeCsv(String FOLDER_PATH, String OUTPUTCSV_PATH) throws FileNotFoundException{
 		File FOLDER = new File(FOLDER_PATH);
-		File OUTPUTCSV = new File(OUTPUTCSV_PATH);
+		File OUTPUTCSV = new File(OUTPUTCSV_PATH + "/allinone.csv");
 		List<String[]> lines = new ArrayList<String[]>();
 		
 		for (File file: FOLDER.listFiles()){
@@ -36,5 +41,16 @@ public class CsvParser {
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
+	}
+	
+	<T> void getDataforFFT(String OUTPUTCSV_PATH) throws IOException {
+		Reader reader = Files.newBufferedReader(Paths.get(OUTPUTCSV_PATH + "/allinone.csv"));
+		CSVReader csvReader = new CSVReader(reader);
+		
+		String[] record;
+		
+		while((record = csvReader.readNext()) != null) {
+			System.out.println(record[0]);
+		}		
 	}
 }

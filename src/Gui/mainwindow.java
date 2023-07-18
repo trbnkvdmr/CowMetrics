@@ -44,9 +44,10 @@ public class mainwindow extends JFrame {
 
 	public void createUI(JFrame window) throws IOException {
 		JLabel label = new JLabel("Folder :");
-		JTextField textField = new JTextField("", 20);
+		JTextField textField = new JTextField("", 19);
 		JButton button1 = new JButton("Open");
 		JButton button2 = new JButton("Go ahead");
+		JButton button3 = new JButton("File");
 		button1.setBackground(new Color(83, 130, 52));
 		button1.setForeground(Color.WHITE);
 		button1.setBorderPainted(false);
@@ -57,6 +58,12 @@ public class mainwindow extends JFrame {
 		button2.setBorderPainted(false);
 		button2.setFocusPainted(false);
 		button2.setContentAreaFilled(true);
+		button3.setBackground(new Color(83, 130, 52));
+		button3.setForeground(Color.WHITE);
+		button3.setBorderPainted(false);
+		button3.setFocusPainted(false);
+		button3.setContentAreaFilled(true);
+		
 
 		BufferedImage myPicture = ImageIO.read(new File("./src/Source/logo1+.jpg"));
 		Image image = myPicture.getScaledInstance(480, 270, Image.SCALE_SMOOTH);
@@ -80,7 +87,8 @@ public class mainwindow extends JFrame {
 										.addComponent(label)
 										.addComponent(textField)
 										.addComponent(button1)
-										.addComponent(button2)))));
+										.addComponent(button2)
+										.addComponent(button3)))));
 
 		///////////////////////////////////////////////////////////
 
@@ -104,11 +112,19 @@ public class mainwindow extends JFrame {
 				Settings settings = new Settings();
 				CsvParser csvparse = new CsvParser();
 				settings.setFolder(Folder);
+				settings.setOUTPUTCSV(Folder);		
 				try {
 					csvparse.MergeCsv(settings.FOLDER_PATH, settings.OUTPUTCSV_PATH);
 				} catch (FileNotFoundException e1) {
 					e1.printStackTrace();
 				}
+			}
+		});
+		
+		button3.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				/// to do 
 			}
 		});
 

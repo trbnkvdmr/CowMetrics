@@ -5,3 +5,4 @@
 .project
 .codetogether.ignore
 /src/Metrics
+/target/*

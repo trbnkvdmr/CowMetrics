@@ -22,7 +22,7 @@ import javax.swing.JTextField;
 import Settings.Settings;
 import csvParser.CsvParser;
 
-public class mainwindow extends JFrame {
+public class mainwindow extends JFrame{
 	/**
 	 * 
 	 */
@@ -30,12 +30,13 @@ public class mainwindow extends JFrame {
 	protected static String Folder = null;
 
 	public void createmainwindow() throws IOException {
+		Settings SETTINGS = new Settings();
 		JFrame window = new JFrame();
-		ImageIcon icon = new ImageIcon("./src/Source/logo.png");
+		ImageIcon icon = new ImageIcon(SETTINGS.MAINWINDOW_ICO);
 		createUI(window);
 		window.setIconImage(icon.getImage());
 		window.setSize(500, 350);
-		window.setTitle("Cow metrics analyzer");
+		window.setTitle(SETTINGS.APPNAME);
 		window.setLocationRelativeTo(null);
 		window.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		window.setVisible(true);
@@ -43,11 +44,12 @@ public class mainwindow extends JFrame {
 	}
 
 	public void createUI(JFrame window) throws IOException {
-		JLabel label = new JLabel("Folder :");
-		JTextField textField = new JTextField("", 19);
-		JButton button1 = new JButton("Open");
-		JButton button2 = new JButton("Go ahead");
-		JButton button3 = new JButton("File");
+		Settings SETTINGS = new Settings();
+		JLabel label = new JLabel(SETTINGS.LABLEFORTEXTFIELDOFNMAINWINDOW);
+		JTextField textField = new JTextField(SETTINGS.TEXTFIEDLINMAINWINDOW, 19);
+		JButton button1 = new JButton(SETTINGS.BUTTON1);
+		JButton button2 = new JButton(SETTINGS.BUTTON2);
+		JButton button3 = new JButton(SETTINGS.BUTTON3);
 		button1.setBackground(new Color(83, 130, 52));
 		button1.setForeground(Color.WHITE);
 		button1.setBorderPainted(false);
@@ -65,7 +67,7 @@ public class mainwindow extends JFrame {
 		button3.setContentAreaFilled(true);
 		
 
-		BufferedImage myPicture = ImageIO.read(new File("./src/Source/logo1+.jpg"));
+		BufferedImage myPicture = ImageIO.read(new File(SETTINGS.MAINWINDOW_IMAGE));
 		Image image = myPicture.getScaledInstance(480, 270, Image.SCALE_SMOOTH);
 		JLabel picLabel = new JLabel(new ImageIcon(image));
 

@@ -17,10 +17,13 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
 
+import Settings.Settings;
+
 public class CsvParser {
 	public void MergeCsv(String FOLDER_PATH, String OUTPUTCSV_PATH) throws FileNotFoundException{
+		Settings SETTINGS = new Settings();
 		File FOLDER = new File(FOLDER_PATH);
-		File OUTPUTCSV = new File(OUTPUTCSV_PATH + "/allinone.csv");
+		File OUTPUTCSV = new File(OUTPUTCSV_PATH + SETTINGS.CSVOUTFILENAME);
 		List<String[]> lines = new ArrayList<String[]>();
 		
 		for (File file: FOLDER.listFiles()){
@@ -45,23 +48,21 @@ public class CsvParser {
 		}
 	}
 	
-	 public void getData(String OUTPUTCSV_PATH) throws IOException {
-		 Reader reader = Files.newBufferedReader(Paths.get(OUTPUTCSV_PATH + "/allinone.csv"));
+	 public void getData(String OUTPUTCSV_PATH) throws IOException{
+		 Settings SETTINGS = new Settings();
+		 Reader reader = Files.newBufferedReader(Paths.get(OUTPUTCSV_PATH + SETTINGS.CSVOUTFILENAME));
 		 
 		 CSVParser parser = new CSVParserBuilder()
 			        .withSeparator(';')
 			        .build();
-		 
 		 CSVReader csvReader = new CSVReaderBuilder(reader)
 			        .withCSVParser(parser)
 			        .build();
-
 		 List<String[]> records = csvReader.readAll();
 		 
 		 for (String[] record : records) {
 			 System.out.println(record[0] +"\t"+ record[1] +"\t"+ record[2] +"\t"+ record[3]);
 		 }
-
-		}		
+	}		
 }
 

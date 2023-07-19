@@ -1,35 +1,35 @@
 package calculations;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import Settings.Settings;
+
+
 
 /**
  * Энергия считается как сумма 3600 векторов.
- * Складываются значения только выше порогового значения - фильтрация.
- * 
- * 
+ * Складываются значения только выше порогового значения 100 - фильтрация.
  */
-
-
 public class Energy {
-	int sum;
+	Settings settings = new Settings();
+	int sum = 0;
 	
 	public ArrayList<Integer> getEnergy(int[] ints){
 		ArrayList<Integer> Energy = new ArrayList<Integer>();
 
-		for(int i = 0;i<=ints.length-3601;i =+ 3600) {
-			sum = 0;
-			for(int j = i; j<i+3600-1;j++) {
-				if (Math.abs(ints[j]) > 100) {
-					sum = sum + Math.abs(ints[i]);
-			}
+		try {
+			for(int i = 0;i<=ints.length;i += settings.Sample_of_Energy) {
+				
+				for(int j = i; j<=i+settings.Sample_of_Energy;j++) {
+					if (Math.abs(ints[j]) > settings.Energy_filtration_threshold_value) {
+						sum += + Math.abs(ints[j]);
+					}
+				}
 				Energy.add(sum);
-			}
+			}	
+		}catch(ArrayIndexOutOfBoundsException ae) {
+			  System.out.println(ae + " - Массив векторов не кратен выборке, возможны потери данных");
 		}
-		System.out.println(Energy);
 		return Energy;
 	}
-	
-	
-	
 }

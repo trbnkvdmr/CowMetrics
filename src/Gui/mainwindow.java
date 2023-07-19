@@ -55,21 +55,25 @@ public class mainwindow extends JFrame{
 		JButton button2 = new JButton(SETTINGS.BUTTON2);
 		JButton button3 = new JButton(SETTINGS.BUTTON3);
 		JButton button4 = new JButton(SETTINGS.BUTTON4);
+		
 		button1.setBackground(new Color(83, 130, 52));
 		button1.setForeground(Color.WHITE);
 		button1.setBorderPainted(false);
 		button1.setFocusPainted(false);
 		button1.setContentAreaFilled(true);
+		
 		button2.setBackground(new Color(83, 130, 52));
 		button2.setForeground(Color.WHITE);
 		button2.setBorderPainted(false);
 		button2.setFocusPainted(false);
 		button2.setContentAreaFilled(true);
+		
 		button3.setBackground(new Color(83, 130, 52));
 		button3.setForeground(Color.WHITE);
 		button3.setBorderPainted(false);
 		button3.setFocusPainted(false);
 		button3.setContentAreaFilled(true);
+		
 		button4.setBackground(new Color(83, 130, 52));
 		button4.setForeground(Color.WHITE);
 		button4.setBorderPainted(false);
@@ -127,7 +131,7 @@ public class mainwindow extends JFrame{
 				settings.setFolder(Folder);
 				settings.setOUTPUTCSV(Folder);		
 				try {
-					csvparse.MergeCsv(settings.FOLDER_PATH, settings.OUTPUTCSV_PATH);
+					csvparse.MergeCsv(settings.Folder_Path, settings.Outputcsv_Path);
 				} catch (FileNotFoundException e1) {
 					e1.printStackTrace();
 				}
@@ -145,7 +149,7 @@ public class mainwindow extends JFrame{
 				settings.setOUTPUTCSV(Folder);
 								
 				try {
-					settings.setVector_Array(GetVector.getVector(csvparse.ReadCSV(settings.OUTPUTCSV_PATH)));	
+					settings.setVector_Array(GetVector.getVector(csvparse.ReadCSV(settings.Outputcsv_Path)));	
 			
 					int[] ints = (settings.Vector_array).stream().mapToInt(i->i).toArray();
 					double[] doubles = Arrays.stream(ints).asDoubleStream().toArray();
@@ -170,9 +174,8 @@ public class mainwindow extends JFrame{
 				settings.setOUTPUTCSV(Folder);
 				
 				try {
-					settings.setVector_Array(GetVector.getVector(csvparse.ReadCSV(settings.OUTPUTCSV_PATH)));
+					settings.setVector_Array(GetVector.getVector(csvparse.ReadCSV(settings.Outputcsv_Path)));
 					int[] ints = (settings.Vector_array).stream().mapToInt(i->i).toArray();
-					System.out.println(settings.Vector_array);
 					System.out.println(Arrays.toString(ints));
 					Energy.getEnergy(ints);
 				} catch (IOException e1) {

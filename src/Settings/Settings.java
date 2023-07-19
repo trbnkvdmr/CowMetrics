@@ -3,8 +3,8 @@ package Settings;
 import java.util.ArrayList;
 
 public class Settings {
-	public String FOLDER_PATH = "";
-	public String OUTPUTCSV_PATH = "";
+	public String Folder_Path = "";
+	public String Outputcsv_Path = "";
 	public final String CSVOUTFILENAME = "/allinone.csv";
 	
 	
@@ -21,11 +21,16 @@ public class Settings {
 	public ArrayList<Integer> Vector_array;
 	public ArrayList<Integer> Energy_array;
 	
+	public int Sample_of_Energy = 3600; 						// @default 3600
+	public int Energy_filtration_threshold_value = 100;			// @default 100
+	
+	
+	///////////////////////////////////////////////////////
 	public void setFolder(String FOLDER_PATH){
-		this.FOLDER_PATH = FOLDER_PATH;
+		this.Folder_Path = FOLDER_PATH;
 	}
 	public void setOUTPUTCSV(String OUTPUTCSV_PATH){
-		this.OUTPUTCSV_PATH = OUTPUTCSV_PATH;
+		this.Outputcsv_Path = OUTPUTCSV_PATH;
 	}
 	
 	public void setVector_Array (ArrayList<Integer> array) {

@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
@@ -20,7 +21,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import Settings.Settings;
-import csvParser.CsvParser;
+import calculations.Energy;
+import calculations.FFT;
+import calculations.GetVector;
+import csv.CsvParser;
 
 public class mainwindow extends JFrame{
 	/**
@@ -35,7 +39,7 @@ public class mainwindow extends JFrame{
 		ImageIcon icon = new ImageIcon(SETTINGS.MAINWINDOW_ICO);
 		createUI(window);
 		window.setIconImage(icon.getImage());
-		window.setSize(500, 350);
+		window.setSize(500, 380);
 		window.setTitle(SETTINGS.APPNAME);
 		window.setLocationRelativeTo(null);
 		window.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -46,10 +50,11 @@ public class mainwindow extends JFrame{
 	public void createUI(JFrame window) throws IOException {
 		Settings SETTINGS = new Settings();
 		JLabel label = new JLabel(SETTINGS.LABLEFORTEXTFIELDOFNMAINWINDOW);
-		JTextField textField = new JTextField(SETTINGS.TEXTFIEDLINMAINWINDOW, 19);
+		JTextField textField = new JTextField(SETTINGS.TEXTFIEDLINMAINWINDOW, 24);
 		JButton button1 = new JButton(SETTINGS.BUTTON1);
 		JButton button2 = new JButton(SETTINGS.BUTTON2);
 		JButton button3 = new JButton(SETTINGS.BUTTON3);
+		JButton button4 = new JButton(SETTINGS.BUTTON4);
 		button1.setBackground(new Color(83, 130, 52));
 		button1.setForeground(Color.WHITE);
 		button1.setBorderPainted(false);
@@ -65,6 +70,11 @@ public class mainwindow extends JFrame{
 		button3.setBorderPainted(false);
 		button3.setFocusPainted(false);
 		button3.setContentAreaFilled(true);
+		button4.setBackground(new Color(83, 130, 52));
+		button4.setForeground(Color.WHITE);
+		button4.setBorderPainted(false);
+		button4.setFocusPainted(false);
+		button4.setContentAreaFilled(true);
 		
 
 		BufferedImage myPicture = ImageIO.read(new File(SETTINGS.MAINWINDOW_IMAGE));
@@ -76,13 +86,13 @@ public class mainwindow extends JFrame{
 
 		GroupLayout layout = new GroupLayout(panel);
 		layout.setAutoCreateGaps(true);
-		layout.setAutoCreateGaps(true);
+
 
 		///////////////////////////////////////////////////////////
 
 		layout.setVerticalGroup(layout.createSequentialGroup()
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(picLabel))
+						.addComponent(picLabel)
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 						.addGroup(layout.createSequentialGroup()
 								.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
@@ -90,8 +100,9 @@ public class mainwindow extends JFrame{
 										.addComponent(textField)
 										.addComponent(button1)
 										.addComponent(button2)
-										.addComponent(button3)))));
-
+										.addComponent(button3)
+								        .addComponent(button4))))));
+		
 		///////////////////////////////////////////////////////////
 
 		button1.addActionListener(new ActionListener() {
@@ -128,18 +139,48 @@ public class mainwindow extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				Settings settings = new Settings();
 				CsvParser csvparse = new CsvParser();
-				
+				GetVector GetVector = new GetVector();
+								
 				settings.setFolder(Folder);
 				settings.setOUTPUTCSV(Folder);
 								
 				try {
-					csvparse.getData(settings.OUTPUTCSV_PATH);
-				} catch (IOException e1) {
-					e1.printStackTrace();
+					settings.setVector_Array(GetVector.getVector(csvparse.ReadCSV(settings.OUTPUTCSV_PATH)));	
+			
+					int[] ints = (settings.Vector_array).stream().mapToInt(i->i).toArray();
+					double[] doubles = Arrays.stream(ints).asDoubleStream().toArray();
+					
+					FFT fft = new FFT();
+					fft.get_FFT(doubles);					
+					} catch (IOException e1) {
+						e1.printStackTrace();
 				}
 			}
 		});
-
+		
+		button4.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Settings settings = new Settings();
+				CsvParser csvparse = new CsvParser();
+				GetVector GetVector = new GetVector();
+				Energy Energy = new Energy();	
+				
+				settings.setFolder(Folder);
+				settings.setOUTPUTCSV(Folder);
+				
+				try {
+					settings.setVector_Array(GetVector.getVector(csvparse.ReadCSV(settings.OUTPUTCSV_PATH)));
+					int[] ints = (settings.Vector_array).stream().mapToInt(i->i).toArray();
+					System.out.println(settings.Vector_array);
+					System.out.println(Arrays.toString(ints));
+					Energy.getEnergy(ints);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}	
+			}
+		});
+		
 		pack();
 		window.getContentPane().add(panel);
 	}

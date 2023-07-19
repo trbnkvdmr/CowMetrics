@@ -1,5 +1,7 @@
 package Settings;
 
+import java.util.ArrayList;
+
 public class Settings {
 	public String FOLDER_PATH = "";
 	public String OUTPUTCSV_PATH = "";
@@ -13,12 +15,24 @@ public class Settings {
 	public final String TEXTFIEDLINMAINWINDOW = "";
 	public final String BUTTON1 = "Open";
 	public final String BUTTON2 = "Go ahead";
-	public final String BUTTON3 = "File";
+	public final String BUTTON3 = "Vector";
+	public final String BUTTON4 = "Energy";
+	
+	public ArrayList<Integer> Vector_array;
+	public ArrayList<Integer> Energy_array;
 	
 	public void setFolder(String FOLDER_PATH){
 		this.FOLDER_PATH = FOLDER_PATH;
 	}
 	public void setOUTPUTCSV(String OUTPUTCSV_PATH){
 		this.OUTPUTCSV_PATH = OUTPUTCSV_PATH;
+	}
+	
+	public void setVector_Array (ArrayList<Integer> array) {
+		Vector_array = array;
+	}
+	
+	public void setEnergy_Array (ArrayList<Integer> array) {
+		Energy_array = array;
 	}
 }

@@ -1,4 +1,4 @@
-package csvParser;
+package csv;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -48,7 +48,7 @@ public class CsvParser {
 		}
 	}
 	
-	 public void getData(String OUTPUTCSV_PATH) throws IOException{
+	 public List<String[]> ReadCSV(String OUTPUTCSV_PATH) throws IOException{
 		 Settings SETTINGS = new Settings();
 		 Reader reader = Files.newBufferedReader(Paths.get(OUTPUTCSV_PATH + SETTINGS.CSVOUTFILENAME));
 		 
@@ -59,10 +59,8 @@ public class CsvParser {
 			        .withCSVParser(parser)
 			        .build();
 		 List<String[]> records = csvReader.readAll();
-		 
-		 for (String[] record : records) {
-			 System.out.println(record[0] +"\t"+ record[1] +"\t"+ record[2] +"\t"+ record[3]);
-		 }
+
+		return (records);
 	}		
 }
 

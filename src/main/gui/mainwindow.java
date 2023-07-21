@@ -177,8 +177,8 @@ public class mainwindow extends JFrame{
 					settings.setVector_Array(GetVector.getVector(csvparse.ReadCSV(settings.Outputcsv_Path)));
 					int[] ints = (settings.Vector_array).stream().mapToInt(i->i).toArray();
 
-					//Energy.getEnergy(ints);
-					Energy.calcAverageEnergyOverTime(ints, 24);
+					//Energy.get_Energy(ints,24);
+					Energy.get_Energy(ints,4);
 					
 				} catch (IOException e1) {
 					e1.printStackTrace();

@@ -27,6 +27,8 @@ import main.csv.CsvParser;
 import main.settings.Settings;
 
 public class mainwindow extends JFrame{
+	Settings SETTINGS = new Settings();
+	
 	/**
 	 * 
 	 */
@@ -34,7 +36,7 @@ public class mainwindow extends JFrame{
 	protected static String Folder = null;
 
 	public void createmainwindow() throws IOException {
-		Settings SETTINGS = new Settings();
+
 		JFrame window = new JFrame();
 		ImageIcon icon = new ImageIcon(SETTINGS.MAINWINDOW_ICO);
 		createUI(window);
@@ -48,7 +50,6 @@ public class mainwindow extends JFrame{
 	}
 
 	public void createUI(JFrame window) throws IOException {
-		Settings SETTINGS = new Settings();
 		JLabel label = new JLabel(SETTINGS.LABLEFORTEXTFIELDOFNMAINWINDOW);
 		JTextField textField = new JTextField(SETTINGS.TEXTFIEDLINMAINWINDOW, 24);
 		JButton button1 = new JButton(SETTINGS.BUTTON1);
@@ -119,6 +120,8 @@ public class mainwindow extends JFrame{
 					File file = fileChooser.getSelectedFile();
 					textField.setText(file.getAbsolutePath());
 					Folder = file.getAbsolutePath();
+					SETTINGS.setFolder(Folder);
+					SETTINGS.setOUTPUTCSV(Folder);
 				}
 			}
 		});
@@ -126,12 +129,9 @@ public class mainwindow extends JFrame{
 		button2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Settings settings = new Settings();
-				CsvParser csvparse = new CsvParser();
-				settings.setFolder(Folder);
-				settings.setOUTPUTCSV(Folder);		
+				CsvParser csvparse = new CsvParser();	
 				try {
-					csvparse.MergeCsv(settings.Folder_Path, settings.Outputcsv_Path);
+					csvparse.MergeCsv(SETTINGS.Folder_Path, SETTINGS.Outputcsv_Path);
 				} catch (FileNotFoundException e1) {
 					e1.printStackTrace();
 				}
@@ -141,17 +141,13 @@ public class mainwindow extends JFrame{
 		button3.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Settings settings = new Settings();
 				CsvParser csvparse = new CsvParser();
 				GetVector GetVector = new GetVector();
-								
-				settings.setFolder(Folder);
-				settings.setOUTPUTCSV(Folder);
-								
+																
 				try {
-					settings.setVector_Array(GetVector.getVector(csvparse.ReadCSV(settings.Outputcsv_Path)));	
+					SETTINGS.setVector_Array(GetVector.getVector(csvparse.ReadCSV(SETTINGS.Outputcsv_Path)));	
 			
-					int[] ints = (settings.Vector_array).stream().mapToInt(i->i).toArray();
+					int[] ints = (SETTINGS.Vector_array).stream().mapToInt(i->i).toArray();
 					double[] doubles = Arrays.stream(ints).asDoubleStream().toArray();
 					
 					FFT fft = new FFT();
@@ -165,20 +161,15 @@ public class mainwindow extends JFrame{
 		button4.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Settings settings = new Settings();
 				CsvParser csvparse = new CsvParser();
 				GetVector GetVector = new GetVector();
 				Energy Energy = new Energy();	
-				
-				settings.setFolder(Folder);
-				settings.setOUTPUTCSV(Folder);
-				
+								
 				try {
-					settings.setVector_Array(GetVector.getVector(csvparse.ReadCSV(settings.Outputcsv_Path)));
-					int[] ints = (settings.Vector_array).stream().mapToInt(i->i).toArray();
+					SETTINGS.setVector_Array(GetVector.getVector(csvparse.ReadCSV(SETTINGS.Outputcsv_Path)));
+					int[] ints = (SETTINGS.Vector_array).stream().mapToInt(i->i).toArray();
 
-					//Energy.get_Energy(ints,24);
-					Energy.get_Energy(ints,4);
+					Energy.get_Energy(ints,24,4);
 					
 				} catch (IOException e1) {
 					e1.printStackTrace();

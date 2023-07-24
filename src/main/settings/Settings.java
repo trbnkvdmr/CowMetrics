@@ -20,6 +20,8 @@ public class Settings {
 	public ArrayList<Integer> Vector_array;
 	public ArrayList<Integer> Energy_array;
 	public ArrayList<Integer> Average_Energy_Array;
+	public ArrayList<Integer> Average_Energy_X;
+	public ArrayList<Integer> Average_Energy_X2;
 	
 	public int Sample_of_Energy = 3600; 						// @default 3600
 	public int Energy_filtration_threshold_value = 100;			// @default 100
@@ -33,12 +35,25 @@ public class Settings {
 		this.Outputcsv_Path = OUTPUTCSV_PATH;
 	}
 	public void setVector_Array (ArrayList<Integer> array) {
-		Vector_array = array;
+		this.Vector_array = array;
 	}
 	public void setEnergy_Array (ArrayList<Integer> array) {
-		Energy_array = array;
+		this.Energy_array = array;
 	}
 	public void setAverageEnergyArray(ArrayList<Integer> array) {
-		Average_Energy_Array = array;
+		this.Average_Energy_Array = array;
 	}
+	public void setAverage_Energy_X(ArrayList<Integer> array) {
+		this.Average_Energy_X = array;
+	}
+	public ArrayList<Integer> getAverage_Energy_X(){
+		return this.Average_Energy_X;
+	}
+	public void setAverage_Energy_X2(ArrayList<Integer> array) {
+		this.Average_Energy_X2 = array;
+	}
+	public ArrayList<Integer> getAverage_Energy_X2(){
+		return this.Average_Energy_X2;
+	}
+	
 }

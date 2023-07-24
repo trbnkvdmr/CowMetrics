@@ -112,7 +112,7 @@ public class FFT
 		// initialize arrays
 		double[] amplitude = new double[K];
 		double[] phase = new double[K];
-		double[] cosSignal = new double[N];
+		//double[] cosSignal = new double[N];
 		double[] degreesSignal = new double[N];
 		double[] IMCSum = new double[K];
 		double[] radiansSignal = new double[N];

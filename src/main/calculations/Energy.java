@@ -16,21 +16,27 @@ import main.settings.Settings;
  * Складываются значения только выше порогового значения 100 - фильтрация.
  */
 public class Energy {
+	Settings SETTINGS = new Settings();
+	
+	ArrayList<Integer> Energy = new ArrayList<Integer>();
+	ArrayList<Integer> Energy_array = new ArrayList<Integer>();
+	ArrayList<Integer> Average_Energy_X = new ArrayList<Integer>();
+	ArrayList<Integer> Average_Energy_Array = new ArrayList<Integer>();
 	int sum = 0;
+	int dot = 0;
+	
 	/**
 	 * 
 	 * @param ints Массив векторов
 	 * @return Массив значений энергий за выборку
 	 */
 	public ArrayList<Integer> calcEnergy(int[] ints){
-		Settings settings = new Settings();
-		ArrayList<Integer> Energy = new ArrayList<Integer>();
 
 		try {
-			for(int i = 0;i<=ints.length;i += settings.Sample_of_Energy) {
+			for(int i = 0;i<=ints.length;i += SETTINGS.Sample_of_Energy) {
 				sum = 0;
-				for(int j = i; j<=i+settings.Sample_of_Energy;j++) {
-					if (Math.abs(ints[j]) > settings.Energy_filtration_threshold_value) {
+				for(int j = i; j<=i+SETTINGS.Sample_of_Energy;j++) {
+					if (Math.abs(ints[j]) > SETTINGS.Energy_filtration_threshold_value) {
 						sum += Math.abs(ints[j]);
 					}
 				}
@@ -40,8 +46,8 @@ public class Energy {
 			Energy.add(sum);
 			System.out.println(ae + " - The array of vectors is not a multiple of the sample, data loss is possible");
 		}
-		settings.setEnergy_Array(Energy);
-		System.out.printf("\nEnergy: %s",settings.Energy_array);
+		SETTINGS.setEnergy_Array(Energy);
+		System.out.printf("\nEnergy: %s",SETTINGS.Energy_array);
 		return Energy;
 	}
 	
@@ -52,89 +58,71 @@ public class Energy {
 	 * @return Массив средних значений энергии за период времени
 	 */
 	public ArrayList<Integer> calcAverageEnergyOverTime(int[] ints, int time){
-		Settings settings = new Settings();
-		Energy energy = new Energy();
-		ArrayList<Integer> Energy_over_time = new ArrayList<Integer>();
 			
-		ArrayList<Integer> energy_array = energy.calcEnergy(ints);
+		Energy_array = calcEnergy(ints);
 		
-		int[] energy_array_int = (energy_array).stream().mapToInt(i->i).toArray();
+		int[] energy_array_int = (Energy_array).stream().mapToInt(i->i).toArray();
 				
-		int Sample_of_average_energy = (time * 60*60*4)/(settings.Sample_of_Energy);
+		int Sample_of_average_energy = (time * 60*60*4)/(SETTINGS.Sample_of_Energy);
 		
 		try {
 			for (int i = 0; i<=energy_array_int.length;i+= Sample_of_average_energy) {
-				sum =0;
+				sum = 0;
+				dot = (i + Sample_of_average_energy/2);
+				Average_Energy_X.add(dot);
 				for(int j = i; j<=i+Sample_of_average_energy; j++) {
 					sum += energy_array_int[j];
 				}
-				Energy_over_time.add((sum/Sample_of_average_energy));		
+				Average_Energy_Array.add((sum/Sample_of_average_energy));		
 			}	
 		}catch(ArrayIndexOutOfBoundsException ae) {
-			Energy_over_time.add(sum/Sample_of_average_energy);	
+			Average_Energy_Array.add(sum/Sample_of_average_energy);
+			SETTINGS.setAverageEnergyArray(Average_Energy_Array);
 			System.out.println(ae + " - The array of Average Energy is not a multiple of the sample, data loss is possible");
 		}
-		settings.setAverageEnergyArray(Energy_over_time);
-		System.out.printf("\nAverage Energy of time: %s", settings.Average_Energy_Array);
-		return Energy_over_time;
+		SETTINGS.setAverageEnergyArray(Average_Energy_Array);
+		SETTINGS.setAverage_Energy_X(Average_Energy_X);
+		SETTINGS.setAverage_Energy_X2(Average_Energy_X);
+		System.out.printf("\nAverage Energy of time: %s", SETTINGS.Average_Energy_Array);
+		return Average_Energy_Array;
 	}
 	
-	public void get_Energy(int[] ints, int time) {
-		Settings settings = new Settings();
-		Energy energy = new Energy();
+	public void get_Energy(int[] ints, int time, int time2) {
+ 		ArrayList<Integer> energy_g1 = calcEnergy(ints);
+		ArrayList<Integer> energy_average_g1 = calcAverageEnergyOverTime(ints,time);
 		
-		ArrayList<Integer> energy_s1 = energy.calcEnergy(ints);
-		ArrayList<Integer> energy_average_s2 = energy.calcAverageEnergyOverTime(ints,time);
+		int[] energy_g1_ints = (energy_g1).stream().mapToInt(i->i).toArray();
+		double[] energy_g1_ints_doubles = Arrays.stream(energy_g1_ints).asDoubleStream().toArray();
 		
-		int[] energy_s1_ints = (energy_s1).stream().mapToInt(i->i).toArray();
-		double[] energy_s1_doubles = Arrays.stream(energy_s1_ints).asDoubleStream().toArray();
+		int[] energy_average_g1_ints = (energy_average_g1).stream().mapToInt(i->i).toArray();
+		double[] energy_average_g1_ints_doubles = Arrays.stream(energy_average_g1_ints).asDoubleStream().toArray(); //Y
 		
-		int[] energy_average_s2_ints = (energy_average_s2).stream().mapToInt(i->i).toArray();
-		double[] energy_average_s2_ints_doubles = Arrays.stream(energy_average_s2_ints).asDoubleStream().toArray();
+		ArrayList<Integer> X = SETTINGS.getAverage_Energy_X();
 		
+		int[] X_ints = (X).stream().mapToInt(i->i).toArray();
+		double[] X_ints_doubles = Arrays.stream(X_ints).asDoubleStream().toArray(); //X
+		
+		//g2
+		Average_Energy_Array.clear();
+		ArrayList<Integer> energy_average_g2 = calcAverageEnergyOverTime(ints,time2);
+		int[] energy_average_g2_ints = (energy_average_g2).stream().mapToInt(i->i).toArray();
+		double[] energy_average_g2_ints_doubles = Arrays.stream(energy_average_g2_ints).asDoubleStream().toArray(); //Y
+		
+		ArrayList<Integer> X2 = SETTINGS.getAverage_Energy_X();
+		
+		int[] X2_ints = (X2).stream().mapToInt(i->i).toArray();
+		double[] X2_ints_doubles = Arrays.stream(X2_ints).asDoubleStream().toArray(); //X		
+
+				
 		Plot2DPanel plot = new Plot2DPanel();
 		plot.plotToolBar.setBackground(Color.WHITE);
-		
-		double[][] XY_average_energy = new double[2][2];
-		
-		ArrayList<Integer> energy_array = energy.calcEnergy(ints);
-		
-		int[] energy_array_int = (energy_array).stream().mapToInt(i->i).toArray();
-				
-		int Sample_of_average_energy = (time * 60*60*4)/(settings.Sample_of_Energy);
-		int k = 0;
-		
-		//////////////////////////////////////////////////////////////////////// усреднение по 24 часа - 2 точки частный случай
-		// to do рефакторим в универсальную функцию 
-		
-		try {
-			for (int i = 0; i<=energy_array_int.length;i+= Sample_of_average_energy) {
-				k=0;
-				for(int j = i; j<=i+Sample_of_average_energy; j++) {
-					k++;
-					if (i == 0){
-						
-						XY_average_energy[0][0] = (Sample_of_average_energy/2);
-					}
-				}
-				XY_average_energy[1][0] = k+((energy_array_int.length - k)/2)-1;
-			}
-		}catch(ArrayIndexOutOfBoundsException ae) {
-		}
-
-		//XY_average_energy[0][0] = 0.0;
-		XY_average_energy[0][1] = energy_average_s2_ints_doubles[0];
-		//XY_average_energy[1][0] = energy_s1_doubles.length-1;
-		XY_average_energy[1][1] = energy_average_s2_ints_doubles[1];
-		
-		////////////////////////////////////////////////////////////////////////////////////////////////
-		
-		plot.addLinePlot("Energy", new Color(255,68,68), energy_s1_doubles);
-		plot.addLinePlot("Average Energy", new Color(51,181,229), XY_average_energy);
+		plot.addLinePlot("Energy", new Color(255,68,68), energy_g1_ints_doubles);
+		plot.addLinePlot("Average Energy", new Color(51,181,229), X_ints_doubles, energy_average_g1_ints_doubles);
+		plot.addLinePlot("Average Ener2gy", new Color(170,102,204), X2_ints_doubles, energy_average_g2_ints_doubles);
 		
 		plot.addLegend("SOUTH");
 		
-        Settings SETTINGS = new Settings();
+        
         ImageIcon icon = new ImageIcon(SETTINGS.MAINWINDOW_ICO);
         JFrame frame = new JFrame("Energy");
         frame.setSize(600, 600);
@@ -145,3 +133,4 @@ public class Energy {
 		frame.setBackground(Color.WHITE);
 	}
 }
+

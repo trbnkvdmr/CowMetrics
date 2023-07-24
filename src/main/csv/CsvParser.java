@@ -20,9 +20,11 @@ import com.opencsv.CSVWriter;
 import main.settings.Settings;
 
 public class CsvParser {
+	Settings SETTINGS = new Settings();	
+	
 	
 	public void MergeCsv(String FOLDER_PATH, String OUTPUTCSV_PATH) throws FileNotFoundException{
-		Settings SETTINGS = new Settings();
+
 		File FOLDER = new File(FOLDER_PATH);
 		File OUTPUTCSV = new File(OUTPUTCSV_PATH + SETTINGS.CSVOUTFILENAME);
 		List<String[]> lines = new ArrayList<String[]>();
@@ -50,7 +52,6 @@ public class CsvParser {
 	}
 	
 	 public List<String[]> ReadCSV(String OUTPUTCSV_PATH) throws IOException{
-		 Settings SETTINGS = new Settings();
 		 Reader reader = Files.newBufferedReader(Paths.get(OUTPUTCSV_PATH + SETTINGS.CSVOUTFILENAME));
 		 
 		 CSVParser parser = new CSVParserBuilder()

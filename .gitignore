@@ -4,5 +4,5 @@
 .classpath
 .project
 .codetogether.ignore
-/src/Metrics
+/src/CowMetrics
 /target/*

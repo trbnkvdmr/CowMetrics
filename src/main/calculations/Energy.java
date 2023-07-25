@@ -8,7 +8,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import org.math.plot.Plot2DPanel;
-import org.math.plot.utils.Array;
 
 import main.settings.Settings;
 
@@ -23,7 +22,6 @@ public class Energy {
 	int dot = 0;
 	
 	/**
-	 * 
 	 * @param ints Массив векторов
 	 * @return Массив значений энергий за выборку
 	 */
@@ -57,7 +55,6 @@ public class Energy {
 	}
 	
 	/**
-	 * 
 	 * @param ints Массив енергии из векторов
 	 * @param time Период времени в часах
 	 * @return Массив средних значений энергии за период времени
@@ -82,7 +79,7 @@ public class Energy {
 				Average_Energy_Y.add((sum/Sample_of_average_energy));		
 			}	
 		}catch(ArrayIndexOutOfBoundsException ae) {
-			Average_Energy_Y.add(sum/Sample_of_average_energy);
+			Average_Energy_Y.add((sum/Sample_of_average_energy));	
 			System.out.println(ae + " - The array of Average Energy is not a multiple of the sample, data loss is possible");
 		}
 		System.out.printf("\nAverage Energy of time Y: %s", Average_Energy_Y);
@@ -107,8 +104,8 @@ public class Energy {
 		return YX_Average_energy;
 	}
 	
-    public int[][] turnToRight(int[][] array) {
-        int[][] resultArray = new int[array[0].length][array.length];
+    public double[][] turnToRight(double[][] array) {
+    	double[][] resultArray = new double[array[0].length][array.length];
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
                resultArray[j][array.length - i - 1] = array[i][j];
@@ -117,16 +114,22 @@ public class Energy {
         return resultArray;
     }
 	
-	public void getEnergyAllPlot(int[] ints, int time, int time2) {
+	public void getEnergyAllPlot(int[] ints, int time, int time2,int time3 ) {
 		double[] Energy = getEnergyArrayForLinePlot(ints);
 		double[][] AverageEnergy_24h = getAverageEnergyArrayForLinePlot(ints,time);
-		AverageEnergy_24h = rotateArray(AverageEnergy_24h);
+		double[][] AverageEnergy_4h = getAverageEnergyArrayForLinePlot(ints,time2);
+		double[][] AverageEnergy_1h = getAverageEnergyArrayForLinePlot(ints,time3);
+		AverageEnergy_24h = turnToRight(AverageEnergy_24h);
+		AverageEnergy_4h = turnToRight(AverageEnergy_4h);
+		AverageEnergy_1h = turnToRight(AverageEnergy_1h);
+		
 		Plot2DPanel plot = new Plot2DPanel();
 		plot.plotToolBar.setBackground(Color.WHITE);
 		plot.addLegend("SOUTH");
-		plot.addLinePlot("Energy", new Color(255,68,68), Energy);
-		plot.addLinePlot("Average Energy 24h", new Color(255,68,68), AverageEnergy_24h[0], AverageEnergy_24h[1]);
-		
+		plot.addLinePlot("Energy", new Color(255, 0, 0), Energy);
+		plot.addLinePlot("Average Energy 24h", new Color(0, 255, 0), AverageEnergy_24h);
+		plot.addLinePlot("Average Energy 4h",  new Color(255, 0, 255), AverageEnergy_4h);
+		plot.addLinePlot("Average Energy 1h",  new Color(0, 0, 255), AverageEnergy_1h);
 		
         ImageIcon icon = new ImageIcon(SETTINGS.MAINWINDOW_ICO);
         JFrame frame = new JFrame("Energy");
@@ -136,11 +139,6 @@ public class Energy {
         frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		frame.setBackground(Color.WHITE);
-	}
-
-	private double[][] rotateArray(double[][] averageEnergy_24h) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
 

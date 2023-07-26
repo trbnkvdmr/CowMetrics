@@ -39,7 +39,7 @@ public class Energy {
 			}	
 		}catch(ArrayIndexOutOfBoundsException ae) {
 			Energy.add(sum);
-			System.out.println(ae + " - The array of vectors is not a multiple of the sample, data loss is possible");
+			System.out.println("\n" + ae + " - The array of vectors is not a multiple of the sample, data loss is possible");
 		}
 		System.out.printf("\nEnergy: %s",Energy);
 		return Energy;
@@ -80,7 +80,7 @@ public class Energy {
 			}	
 		}catch(ArrayIndexOutOfBoundsException ae) {
 			Average_Energy_Y.add((sum/Sample_of_average_energy));	
-			System.out.println(ae + " - The array of Average Energy is not a multiple of the sample, data loss is possible");
+			System.out.println("\n"+ae + " - The array of Average Energy is not a multiple of the sample, data loss is possible");
 		}
 		System.out.printf("\nAverage Energy of time Y: %s", Average_Energy_Y);
 		System.out.printf("\nAverage Energy of time X: %s", Average_Energy_X);
@@ -116,12 +116,9 @@ public class Energy {
 	
 	public void getEnergyAllPlot(int[] ints, int time, int time2,int time3 ) {
 		double[] Energy = getEnergyArrayForLinePlot(ints);
-		double[][] AverageEnergy_24h = getAverageEnergyArrayForLinePlot(ints,time);
-		double[][] AverageEnergy_4h = getAverageEnergyArrayForLinePlot(ints,time2);
-		double[][] AverageEnergy_1h = getAverageEnergyArrayForLinePlot(ints,time3);
-		AverageEnergy_24h = turnToRight(AverageEnergy_24h);
-		AverageEnergy_4h = turnToRight(AverageEnergy_4h);
-		AverageEnergy_1h = turnToRight(AverageEnergy_1h);
+		double[][] AverageEnergy_24h = turnToRight(getAverageEnergyArrayForLinePlot(ints,time));
+		double[][] AverageEnergy_4h =  turnToRight(getAverageEnergyArrayForLinePlot(ints,time2));
+		double[][] AverageEnergy_1h =  turnToRight(getAverageEnergyArrayForLinePlot(ints,time3));
 		
 		Plot2DPanel plot = new Plot2DPanel();
 		plot.plotToolBar.setBackground(Color.WHITE);

@@ -169,7 +169,7 @@ public class mainwindow extends JFrame{
 					SETTINGS.setVector_Array(GetVector.getVector(csvparse.ReadCSV(SETTINGS.Outputcsv_Path)));
 					int[] ints = (SETTINGS.Vector_array).stream().mapToInt(i->i).toArray();
 
-					Energy.getEnergyAllPlot(ints,24,4,1);
+					Energy.getEnergyAllPlot(ints,48,6);
 					
 				} catch (IOException e1) {
 					e1.printStackTrace();

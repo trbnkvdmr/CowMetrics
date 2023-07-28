@@ -19,7 +19,9 @@ public class Energy {
 	Settings SETTINGS = new Settings();
 	ArrayList<Integer> Average_Energy_X = new ArrayList<Integer>();
 	int sum = 0;
+	double sum_AB = 0;
 	int dot = 0;
+	double dot_AB = 0;
 	
 	/**
 	 * @param ints Массив векторов
@@ -45,6 +47,40 @@ public class Energy {
 		return Energy;
 	}
 	
+	public ArrayList<Double> calcEnergy_AB(int[] ints){
+		ArrayList<Integer> Energy = calcEnergy(ints);
+		int[] energy_ints = (Energy).stream().mapToInt(i->i).toArray();
+		double[] energy_ints_doubles = Arrays.stream(energy_ints).asDoubleStream().toArray();
+		ArrayList<Double> Energy_AB = new ArrayList<Double>();
+		double X = 0;
+		double A = 0.91;
+		double B = 0.09;
+		
+		for (int i = 0; i <= energy_ints_doubles.length-1; i++) {
+			X = (A * X) + (B * energy_ints_doubles[i]);
+			Energy_AB.add(X);
+		}
+		
+		return Energy_AB;
+	}
+	
+	public ArrayList<Double> calcEnergy_AB_anyH(int[] ints){
+		ArrayList<Integer> Energy = calcEnergy(ints);
+		int[] energy_ints = (Energy).stream().mapToInt(i->i).toArray();
+		double[] energy_ints_doubles = Arrays.stream(energy_ints).asDoubleStream().toArray();
+		ArrayList<Double> Energy_AB = new ArrayList<Double>();
+		double X = 0;
+		double A = 0.995;
+		double B = 1 - A;
+		
+		for (int i = 0; i <= energy_ints_doubles.length-1; i++) {
+			X = (A * X) + (B * energy_ints_doubles[i]);
+			Energy_AB.add(X);
+		}
+		
+		return Energy_AB;
+	}
+
 	// Array for Plot Energy
 	public double[] getEnergyArrayForLinePlot(int[] ints){
 		ArrayList<Integer> Energy = calcEnergy(ints);
@@ -52,6 +88,20 @@ public class Energy {
 		int[] energy_ints = (Energy).stream().mapToInt(i->i).toArray();
 		double[] energy_ints_doubles = Arrays.stream(energy_ints).asDoubleStream().toArray();
 		return energy_ints_doubles;
+	}
+	
+	public double[] getEnergyArrayForLinePlot_AB(int[] ints){
+		ArrayList<Double> Energy_AB = calcEnergy_AB(ints);
+		
+		double[] energy_double = (Energy_AB).stream().mapToDouble(d->d).toArray();
+		return energy_double;
+	}
+	
+	public double[] getEnergyArrayForLinePlot_AB_anyH(int[] ints){
+		ArrayList<Double> Energy_AB_anyH = calcEnergy_AB_anyH(ints);
+		
+		double[] energy_double = (Energy_AB_anyH).stream().mapToDouble(d->d).toArray();
+		return energy_double;
 	}
 	
 	/**
@@ -69,7 +119,7 @@ public class Energy {
 		int Sample_of_average_energy = (time * 60*60*4)/(SETTINGS.Sample_of_Energy);
 		
 		try {
-			for (int i = 0; i<=energy_array_int.length;i+= Sample_of_average_energy) {
+			for (int i = 0; i<=energy_array_int.length;i+= 1 ) {
 				sum = 0;
 				dot = (i + Sample_of_average_energy);
 				Average_Energy_X.add(dot);
@@ -86,7 +136,7 @@ public class Energy {
 		System.out.printf("\nAverage Energy of time X: %s", Average_Energy_X);
 		return Average_Energy_Y;
 	}
-	
+		
 	// Array[][] for Plot Average Energy
 	public double[][] getAverageEnergyArrayForLinePlot(int[] ints,int time){
 		ArrayList<Integer> energy_average = calcAverageEnergyOverTime(ints,time);
@@ -103,7 +153,7 @@ public class Energy {
 		
 		return YX_Average_energy;
 	}
-	
+		
     public double[][] turnToRight(double[][] array) {
     	double[][] resultArray = new double[array[0].length][array.length];
         for (int i = 0; i < array.length; i++) {
@@ -114,19 +164,26 @@ public class Energy {
         return resultArray;
     }
 	
-	public void getEnergyAllPlot(int[] ints, int time, int time2,int time3 ) {
+	public void getEnergyAllPlot(int[] ints, int time, int time2) {
 		double[] Energy = getEnergyArrayForLinePlot(ints);
-		double[][] AverageEnergy_24h = turnToRight(getAverageEnergyArrayForLinePlot(ints,time));
+		double[][] AverageEnergy_96h = turnToRight(getAverageEnergyArrayForLinePlot(ints,time));
 		double[][] AverageEnergy_4h =  turnToRight(getAverageEnergyArrayForLinePlot(ints,time2));
-		double[][] AverageEnergy_1h =  turnToRight(getAverageEnergyArrayForLinePlot(ints,time3));
+		//double[][] AverageEnergy_1h =  turnToRight(getAverageEnergyArrayForLinePlot(ints,time3)); 1h
 		
+		double[] Energy_AB = getEnergyArrayForLinePlot_AB(ints);
+		double[] Energy_AB_anyH = getEnergyArrayForLinePlot_AB_anyH(ints);
+				
 		Plot2DPanel plot = new Plot2DPanel();
 		plot.plotToolBar.setBackground(Color.WHITE);
+		plot.setBackground(Color.WHITE);
 		plot.addLegend("SOUTH");
 		plot.addLinePlot("Energy", new Color(255, 0, 0), Energy);
-		plot.addLinePlot("Average Energy 24h", new Color(0, 255, 0), AverageEnergy_24h);
+		plot.addLinePlot("Energy_AB", new Color(0, 255, 0), Energy_AB);
+		plot.addLinePlot("Energy_AB_anyH", new Color(210,105,30), Energy_AB_anyH);
+		
+		plot.addLinePlot("Average Energy 96h", new Color(30, 144, 255), AverageEnergy_96h);
 		plot.addLinePlot("Average Energy 4h",  new Color(255, 0, 255), AverageEnergy_4h);
-		plot.addLinePlot("Average Energy 1h",  new Color(0, 0, 255), AverageEnergy_1h);
+		//plot.addLinePlot("Average Energy 1h",  new Color(0, 0, 255), AverageEnergy_1h); 1h
 		
         ImageIcon icon = new ImageIcon(SETTINGS.MAINWINDOW_ICO);
         JFrame frame = new JFrame("Energy");

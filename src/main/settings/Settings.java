@@ -18,6 +18,7 @@ public class Settings {
 	public final String BUTTON4 = "Energy";
 	
 	public ArrayList<Integer> Vector_array;
+	public ArrayList<String> Day_array;
 	
 	public int Sample_of_Energy = 3600; 						// @default 3600
 	public int Energy_filtration_threshold_value = 100;			// @default 100
@@ -32,5 +33,8 @@ public class Settings {
 	}
 	public void setVector_Array (ArrayList<Integer> array) {
 		this.Vector_array = array;
+	}
+	public void setDay_Array(ArrayList<String> array) {
+		this.Day_array = array;
 	}
 }

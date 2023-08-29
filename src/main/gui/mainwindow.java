@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.imageio.ImageIO;
@@ -21,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import main.calculations.Energy;
+import main.calculations.GetDays;
 import main.calculations.GetVector;
 import main.calculations.FFT_third_party.FFT;
 import main.csv.CsvParser;
@@ -32,6 +34,7 @@ public class mainwindow extends JFrame{
 	/**
 	 * 
 	 */
+	
 	private static final long serialVersionUID = 1L;
 	protected static String Folder = null;
 
@@ -143,9 +146,11 @@ public class mainwindow extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				CsvParser csvparse = new CsvParser();
 				GetVector GetVector = new GetVector();
+				GetDays GetDays = new GetDays();
 																
 				try {
-					SETTINGS.setVector_Array(GetVector.getVector(csvparse.ReadCSV(SETTINGS.Outputcsv_Path)));	
+					SETTINGS.setVector_Array(GetVector.getVector(csvparse.ReadCSV(SETTINGS.Outputcsv_Path)));
+					SETTINGS.setDay_Array(GetDays.getDays((csvparse.ReadCSV(SETTINGS.Outputcsv_Path))));
 			
 					int[] ints = (SETTINGS.Vector_array).stream().mapToInt(i->i).toArray();
 					double[] doubles = Arrays.stream(ints).asDoubleStream().toArray();
@@ -154,26 +159,39 @@ public class mainwindow extends JFrame{
 					fft.get_FFT(doubles);					
 					} catch (IOException e1) {
 						e1.printStackTrace();
+					}
 				}
-			}
-		});
+			});
 		
 		button4.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CsvParser csvparse = new CsvParser();
 				GetVector GetVector = new GetVector();
+				GetDays GetDays = new GetDays();
 				Energy Energy = new Energy();	
 								
 				try {
 					SETTINGS.setVector_Array(GetVector.getVector(csvparse.ReadCSV(SETTINGS.Outputcsv_Path)));
+					SETTINGS.setDay_Array(GetDays.getDays((csvparse.ReadCSV(SETTINGS.Outputcsv_Path))));
+										
 					int[] ints = (SETTINGS.Vector_array).stream().mapToInt(i->i).toArray();
+									
+					ArrayList<String> aX_days = SETTINGS.Day_array;
+					ArrayList<String> aX_days_new_for_energy = new ArrayList<String>();
+					
+			        for (int i = 0; i < aX_days.size(); i+=3600) {
+			        	aX_days_new_for_energy.add((aX_days.get(i)+"000"));
+			        }
+			        
+			        String[] aX_days_new_for_energy_array = aX_days_new_for_energy.toArray(new String[0]);
+					int[] aX_days_int = Arrays.stream(aX_days_new_for_energy_array).mapToInt(Integer::parseInt).toArray();							
 
-					Energy.getEnergyAllPlot(ints,48,6);
+					Energy.getEnergyAllPlot(ints,72,3,6,aX_days_int);
 					
 				} catch (IOException e1) {
 					e1.printStackTrace();
-				}	
+				}
 			}
 		});
 		

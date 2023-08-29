@@ -8,6 +8,6 @@
 module CowMetrics {
 	
 	requires java.desktop;
-	requires opencsv;
+	requires com.opencsv;
 	requires JMathPlot;
 }

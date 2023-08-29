@@ -16,6 +16,7 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
 
 import main.settings.Settings;
 
@@ -51,18 +52,28 @@ public class CsvParser {
 		}
 	}
 	
-	 public List<String[]> ReadCSV(String OUTPUTCSV_PATH) throws IOException{
-		 Reader reader = Files.newBufferedReader(Paths.get(OUTPUTCSV_PATH + SETTINGS.CSVOUTFILENAME));
-		 
-		 CSVParser parser = new CSVParserBuilder()
-			        .withSeparator(';')
-			        .build();
-		 CSVReader csvReader = new CSVReaderBuilder(reader)
-			        .withCSVParser(parser)
-			        .build();
-		 List<String[]> records = csvReader.readAll();
-
-		return (records);
+	 public List<String[]> ReadCSV(String OUTPUTCSV_PATH){
+		Reader reader;
+		List<String[]> records = null;
+		
+		try {
+			 reader = Files.newBufferedReader(Paths.get(OUTPUTCSV_PATH + SETTINGS.CSVOUTFILENAME));
+			 CSVParser parser = new CSVParserBuilder()
+				        .withSeparator(';')
+				        .build();
+			 CSVReader csvReader = new CSVReaderBuilder(reader)
+				        .withCSVParser(parser)
+				        .build();
+			 try {
+				records = csvReader.readAll();
+			} catch (CsvException e) {
+				e.printStackTrace();
+			}
+			 
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return records;
 	}		
 }
 

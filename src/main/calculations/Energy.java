@@ -1,15 +1,11 @@
 package main.calculations;
-
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-
 import org.math.plot.Plot2DPanel;
-
 import main.settings.Settings;
 
 /**
@@ -25,7 +21,8 @@ public class Energy {
 	int dot = 0;
 	double dot_AB = 0;
 	ArrayList<Integer> Days = new ArrayList<Integer>();
-	
+	int Sample_of_average_energy;
+	double[] energy_average_ints_doubles;
 	/**
 	 * @param ints Массив векторов
 	 * @return Массив значений энергий за выборку
@@ -50,7 +47,6 @@ public class Energy {
 		return Energy;
 	}
 	
-	
 	public ArrayList<Integer> calcDay(int[] ints){
 		ArrayList<Integer> Energy = new ArrayList<Integer>();
 		try {
@@ -70,8 +66,6 @@ public class Energy {
 		System.out.printf("\nEnergy: %s",Energy);
 		return Energy;
 	}
-	
-	
 	
 	public ArrayList<Double> calcEnergy_AB(int[] ints){
 		ArrayList<Integer> Energy = calcEnergy(ints);
@@ -131,7 +125,7 @@ public class Energy {
 //	}
 	
 	/**
-	 * @param ints Массив енергии из векторов
+	 * @param ints Массив энергии из векторов
 	 * @param time Период времени в часах
 	 * @return Массив средних значений энергии за период времени
 	 */
@@ -142,7 +136,7 @@ public class Energy {
 		
 		int[] energy_array_int = (Energy).stream().mapToInt(i->i).toArray();
 				
-		int Sample_of_average_energy = (time * 60*60*4)/(SETTINGS.Sample_of_Energy);
+		Sample_of_average_energy = (time * 60*60*4)/(SETTINGS.Sample_of_Energy);
 		
 		try {
 			for (int i = 0; i<=energy_array_int.length;i+= 1 ) {
@@ -167,7 +161,7 @@ public class Energy {
 	public double[][] getAverageEnergyArrayForLinePlot(int[] ints,int time){
 		ArrayList<Integer> energy_average = calcAverageEnergyOverTime(ints,time);
 		int[] energy_average_ints = (energy_average).stream().mapToInt(i->i).toArray();
-		double[] energy_average_ints_doubles = Arrays.stream(energy_average_ints).asDoubleStream().toArray(); //Y
+		energy_average_ints_doubles = Arrays.stream(energy_average_ints).asDoubleStream().toArray(); //Y
 		
 		ArrayList<Integer> X = Average_Energy_X;
 		int[] X_ints = (X).stream().mapToInt(i->i).toArray();
@@ -196,32 +190,97 @@ public class Energy {
         }
         return resultArray;
     }
+    
+    /**
+     * @param Energy_AB_array массив энергии фильтра
+     * @param AverageEnergy_3d_array массив энергии на 72 часа
+     * 
+     * Сравниваем значения ускорений соответсвующих друг-другу по шкале "времени", и если значение отношения более опредленного, 
+     * запоминаем эти точки, по ним отмечаем маркерами на графике такие скачков активности.
+     * 
+     * @return [][] Массив точек соответ. условиям выше.
+     **/
+    
+    public double[][] huntingSearch(double[] Energy_AB_array, double[] AverageEnergy_3d_array){
+    	/**
+    	 * Находка - точки, крайние значения которых это рамки маркера скачка активности.
+    	 **/
+    	ArrayList<Double> new_3d_AverageEnergy_list = new ArrayList<Double>();
+    	for(double d : AverageEnergy_3d_array) new_3d_AverageEnergy_list.add(d);
+    	
+    	ArrayList<Double> new_Energy_AB_array_list = new ArrayList<Double>();
+    	for(double d : Energy_AB_array) new_Energy_AB_array_list.add(d);
+
+    	ArrayList<Double> Marker_X = new ArrayList<Double>();
+    	ArrayList<Double> Marker_Y = new ArrayList<Double>();
+    	
+    	int sizeUP = new_Energy_AB_array_list.size() - new_3d_AverageEnergy_list.size();
+    	
+    	int i = 0;
+		for(i=0; i<= sizeUP - 1;i++) {
+			
+			new_3d_AverageEnergy_list.add(0, (double) 0);
+			} 
+		    
+			int c = 0;
+			for(int a = 0; a <= new_3d_AverageEnergy_list.size() - 1; a++) {
+				if(((new_3d_AverageEnergy_list.get(a) != 0) && (new_3d_AverageEnergy_list.get(a) / new_Energy_AB_array_list.get(a) >= SETTINGS.Hunting_search_trashold))) {
+					c++;
+					if(c == 4) {
+						
+						/**
+						 * 
+						 **/
+						
+						double index = new_3d_AverageEnergy_list.indexOf((double)a);
+						Marker_X.add(index);
+						Marker_Y.add( (double) 50000);
+						c = 0;
+						
+						/**
+						 * Надо поставить метки при выполнении всех условий по индексу (тип как по шкале времени)
+						 **/
+				}
+			}
+		}
+		
+		double[] Marker_X_double = (Marker_X).stream().mapToDouble(d->d).toArray();
+		double[] Marker_Y_double = (Marker_Y).stream().mapToDouble(d->d).toArray();
+		
+		double[][] YX_Box_Marker = new double[2][1];
+		YX_Box_Marker[0] = Marker_X_double;
+		YX_Box_Marker[1] = Marker_Y_double;
+
+		return YX_Box_Marker;
+    }
 	
 	public void getEnergyAllPlot(int[] ints, int time, int time2, int time3, int[] aX_days) throws IOException {
 		//double[] Energy = getEnergyArrayForLinePlot(ints);
 		double[][] AverageEnergy_3d = turnToRight(getAverageEnergyArrayForLinePlot(ints,time));
-		double[][] AverageEnergy_3h =  turnToRight(getAverageEnergyArrayForLinePlot(ints,time2));
-		double[][] AverageEnergy_6h =  turnToRight(getAverageEnergyArrayForLinePlot(ints,time3));
+		//double[][] AverageEnergy_3h =  turnToRight(getAverageEnergyArrayForLinePlot(ints,time2));
+		//double[][] AverageEnergy_6h =  turnToRight(getAverageEnergyArrayForLinePlot(ints,time3));
 		//double[][] AverageEnergy_1h =  turnToRight(getAverageEnergyArrayForLinePlot(ints,time3));
 		
 		double[] Energy_AB = getEnergyArrayForLinePlot_AB(ints);
 		//double[] Energy_AB_anyH = getEnergyArrayForLinePlot_AB_anyH(ints);
+		
+		double[][] BoxMarker = huntingSearch(getEnergyArrayForLinePlot_AB(ints), energy_average_ints_doubles);
 						
 		Plot2DPanel plot = new Plot2DPanel();
 		
 		plot.plotToolBar.setBackground(Color.WHITE);
 		plot.setBackground(Color.WHITE);
 		plot.addLegend("SOUTH");
+		
 		//plot.addLinePlot("Energy", new Color(255, 0, 0), Energy);
-		plot.addLinePlot("Energy_AB", new Color(51, 255, 255), Energy_AB);
+		plot.addLinePlot("Energy_AB", new Color(255, 0 , 0), Energy_AB);
 		//plot.addLinePlot("Energy_AB_anyH", new Color(210,105,30), Energy_AB_anyH);
-		
-		plot.addLinePlot("Average Energy 72h (3d)", new Color(255, 102, 0), AverageEnergy_3d);
-		plot.addLinePlot("Average Energy 3h",  new Color(204, 204, 0), AverageEnergy_3h);
-		plot.addLinePlot("Average Energy 6h",  new Color(255, 0, 255), AverageEnergy_6h);
+		plot.addLinePlot("Average Energy 72h (3d)", new Color(0, 43, 255), AverageEnergy_3d);
+		//plot.addLinePlot("Average Energy 3h",  new Color(204, 204, 0), AverageEnergy_3h);
+		//plot.addLinePlot("Average Energy 6h",  new Color(255, 0, 255), AverageEnergy_6h);
 		//plot.addLinePlot("Average Energy 1h",  new Color(0, 0, 255), AverageEnergy_1h);
-		
 		plot.addLinePlot("DAYS",  new Color(0, 0, 0), getDaysOfEnergy(aX_days));
+		plot.addBoxPlot("Marker",new Color(255, 0, 240), BoxMarker);
 				
         ImageIcon icon = new ImageIcon(SETTINGS.MAINWINDOW_ICO);
         JFrame frame = new JFrame("Energy");

@@ -23,7 +23,6 @@ import main.settings.Settings;
 public class CsvParser {
 	Settings SETTINGS = new Settings();	
 	
-	
 	public void MergeCsv(String FOLDER_PATH, String OUTPUTCSV_PATH) throws FileNotFoundException{
 
 		File FOLDER = new File(FOLDER_PATH);

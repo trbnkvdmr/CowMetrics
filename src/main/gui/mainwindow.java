@@ -187,7 +187,7 @@ public class mainwindow extends JFrame{
 			        String[] aX_days_new_for_energy_array = aX_days_new_for_energy.toArray(new String[0]);
 					int[] aX_days_int = Arrays.stream(aX_days_new_for_energy_array).mapToInt(Integer::parseInt).toArray();							
 
-					Energy.getEnergyAllPlot(ints,72,3,6,aX_days_int);
+					Energy.getEnergyAllPlot(ints,36,3,6,aX_days_int);
 					
 				} catch (IOException e1) {
 					e1.printStackTrace();

@@ -24,6 +24,7 @@ public class Settings {
 	public int Energy_filtration_threshold_value = 100;			// @default 100
 	//public int Sample_time_for_average_Energy = 24;			// в часах @default 24
 	
+	public float Hunting_search_trashold = (float) 1.2;
 	///////////////////////////////////////////////////////
 	public void setFolder(String FOLDER_PATH){
 		this.Folder_Path = FOLDER_PATH;

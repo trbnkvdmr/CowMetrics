@@ -264,7 +264,7 @@ public class Energy {
 		double[] Energy_AB = getEnergyArrayForLinePlot_AB(ints);
 		//double[] Energy_AB_anyH = getEnergyArrayForLinePlot_AB_anyH(ints);
 		
-		double[][] BoxMarker = huntingSearch(getEnergyArrayForLinePlot_AB(ints), energy_average_ints_doubles);
+		//double[][] BoxMarker = huntingSearch(getEnergyArrayForLinePlot_AB(ints), energy_average_ints_doubles);
 						
 		Plot2DPanel plot = new Plot2DPanel();
 		
@@ -280,7 +280,7 @@ public class Energy {
 		//plot.addLinePlot("Average Energy 6h",  new Color(255, 0, 255), AverageEnergy_6h);
 		//plot.addLinePlot("Average Energy 1h",  new Color(0, 0, 255), AverageEnergy_1h);
 		plot.addLinePlot("DAYS",  new Color(0, 0, 0), getDaysOfEnergy(aX_days));
-		plot.addBoxPlot("Marker",new Color(255, 0, 240), BoxMarker);
+		//plot.addBoxPlot("Marker",new Color(255, 0, 240), BoxMarker);
 				
         ImageIcon icon = new ImageIcon(SETTINGS.MAINWINDOW_ICO);
         JFrame frame = new JFrame("Energy");

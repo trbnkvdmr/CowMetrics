@@ -55,6 +55,8 @@ public class CsvParser {
 		Reader reader;
 		List<String[]> records = null;
 		
+		// FIXME Добавить проверку и выбор только .csv файликов
+		
 		try {
 			 reader = Files.newBufferedReader(Paths.get(OUTPUTCSV_PATH + SETTINGS.CSVOUTFILENAME));
 			 CSVParser parser = new CSVParserBuilder()

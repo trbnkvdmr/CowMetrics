@@ -238,7 +238,7 @@ public class Energy {
 						c = 0;
 						
 						/**
-						 * Надо поставить метки при выполнении всех условий по индексу (тип как по шкале времени)
+						 * TODO Надо поставить метки при выполнении всех условий по индексу (тип как по шкале времени)
 						 **/
 				}
 			}
@@ -281,6 +281,8 @@ public class Energy {
 		//plot.addLinePlot("Average Energy 1h",  new Color(0, 0, 255), AverageEnergy_1h);
 		plot.addLinePlot("DAYS",  new Color(0, 0, 0), getDaysOfEnergy(aX_days));
 		//plot.addBoxPlot("Marker",new Color(255, 0, 240), BoxMarker);
+		
+		// TODO добавить в путь для сохранения локальный путь
 				
         ImageIcon icon = new ImageIcon(SETTINGS.MAINWINDOW_ICO);
         JFrame frame = new JFrame("Energy");
@@ -290,6 +292,7 @@ public class Energy {
         frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		frame.setBackground(Color.WHITE);
+		
 	}
 }
 

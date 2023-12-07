@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>CowMetrics</groupId>
   <artifactId>CowMetrics</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.1</version>
   
   <dependencies>
 	<dependency>
@@ -33,9 +33,10 @@
     
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
+        <version>3.11.0</version>
         <configuration>
-          <release>18</release>
+            <source>1.8</source>
+    		<target>1.8</target>
         </configuration>
       </plugin>
       
@@ -49,7 +50,7 @@
 				<manifest>
 					<addClasspath>true</addClasspath>
 					<!-- here we specify that we want to use the main method within the App class -->
-					<mainClass>main.mainApp</mainClass>
+					<mainClass>main.mainapp</mainClass>
 				</manifest>
 			</archive>
 		</configuration>

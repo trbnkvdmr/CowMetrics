@@ -4,14 +4,12 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -41,7 +39,7 @@ public class mainwindow extends JFrame{
 	public void createmainwindow() throws IOException {
 
 		JFrame window = new JFrame();
-		ImageIcon icon = new ImageIcon(SETTINGS.MAINWINDOW_ICO);
+		ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource(SETTINGS.MAINWINDOW_ICO));
 		createUI(window);
 		window.setIconImage(icon.getImage());
 		window.setSize(500, 380);
@@ -85,10 +83,11 @@ public class mainwindow extends JFrame{
 		button4.setContentAreaFilled(true);
 		
 
-		BufferedImage myPicture = ImageIO.read(new File(SETTINGS.MAINWINDOW_IMAGE));
-		Image image = myPicture.getScaledInstance(480, 270, Image.SCALE_SMOOTH);
+		ImageIcon imageIcon = new ImageIcon(getClass().getClassLoader().getResource(SETTINGS.MAINWINDOW_IMAGE));
+		Image image = imageIcon.getImage();
+		image = image.getScaledInstance(480, 270, Image.SCALE_SMOOTH);
+		
 		JLabel picLabel = new JLabel(new ImageIcon(image));
-
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.white);
 

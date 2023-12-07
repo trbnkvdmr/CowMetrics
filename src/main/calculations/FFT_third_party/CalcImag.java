@@ -51,7 +51,7 @@ public class CalcImag
 		interpolateSignal = poly.getInterpolateSignal();
 
 		// used to sum the coefficients
-		double IMCSum = 0;
+		//double IMCSum = 0;
 		double[] IMC = new double[NN];
 		
 		// base case
@@ -102,7 +102,7 @@ public class CalcImag
 		double[] IMC = new double[signal.length];
 
 		// used to the sum the coefficients
-		double IMCSum = 0;
+		//double IMCSum = 0;
 		
 		// base case
 		IMC[0] = (signal[0] * Math.sin(-radiansSignal[0]));

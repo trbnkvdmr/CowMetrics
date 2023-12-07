@@ -8,8 +8,8 @@ public class Settings {
 	public final String CSVOUTFILENAME = "/allinone.csv";
 	
 	public final String APPNAME = "Cow metrics analyzer";
-	public final String MAINWINDOW_ICO =   "src/main/resources/logo.png";
-	public final String MAINWINDOW_IMAGE = "src/main/resources/logo1+.jpg";
+	public final String MAINWINDOW_ICO =   "logo.png";
+	public final String MAINWINDOW_IMAGE = "logo1+.jpg";
 	public final String LABLEFORTEXTFIELDOFNMAINWINDOW = "Folder :";
 	public final String TEXTFIEDLINMAINWINDOW = "";
 	public final String BUTTON1 = "Open";

@@ -53,7 +53,7 @@ public class CalcReal
 				interpolateRads, 3);
 		interpolateSignal = poly.getInterpolateSignal();
 
-		double RECSum = 0;
+		//double RECSum = 0;
 		
 		REC[0] = (signal[0] * Math.cos(radiansSignal[0]));
 		System.out.println("Harmonic# " + k );
@@ -96,7 +96,7 @@ public class CalcReal
 	{
 		double[] REC = new double[signal.length];
 
-		double RECSum = 0;
+		//double RECSum = 0;
 		
 		REC[0] = (signal[0] * Math.cos(radiansSignal[0]));
 		System.out.println("Harmonic# " + k );

@@ -9,8 +9,28 @@ import org.math.plot.Plot2DPanel;
 import main.settings.Settings;
 
 /**
- * Энергия считается как сумма 3600 векторов.
- * Складываются значения только выше порогового значения 100 - фильтрация.
+ * Класс Энергии с реализованной математикой и возможностью построения графиков. 
+ * <p>
+ * calcEnergy - Посчитать массив значений энергии из выборки векторов.
+ * <p>
+ * calcEnergy_AB - Посчитать массив значений энергии из выборки векторов используя α-β фильтр.
+ * <p>
+ * calcAverageEnergyOverTime - Посчитать массив средних значений энергии за период времени.
+ * <p>
+ * getEnergyArrayForLinePlot - Посчитать значения для построения графиков.
+ * <p>
+ * getEnergyArrayForLinePlot_AB - Посчитать значения для построения графиков для α-β фильтра.
+ * <p>
+ * getAverageEnergyArrayForLinePlot - Посчитать значения для построения графиков для средних значений энергии за период времени.
+ * <p>
+ * getDaysOfEnergy - Получить значения дней.
+ * <p>
+ * huntingSearch - Поиск охоты.
+ * <p>
+ * getEnergyAllPlot - Построение графиков.
+ * <p>
+ * 
+ * @author Дмитрий Трубников
  */
 
 public class Energy {
@@ -23,6 +43,7 @@ public class Energy {
 	ArrayList<Integer> Days = new ArrayList<Integer>();
 	int Sample_of_average_energy;
 	double[] energy_average_ints_doubles;
+
 	/**
 	 * @param ints Массив векторов
 	 * @return Массив значений энергий за выборку
@@ -47,26 +68,10 @@ public class Energy {
 		return Energy;
 	}
 	
-	public ArrayList<Integer> calcDay(int[] ints){
-		ArrayList<Integer> Energy = new ArrayList<Integer>();
-		try {
-			for(int i = 0;i<=ints.length;i += SETTINGS.Sample_of_Energy) {
-				sum = 0;
-				for(int j = i; j<=i+SETTINGS.Sample_of_Energy;j++) {
-					if (Math.abs(ints[j]) > SETTINGS.Energy_filtration_threshold_value) {
-						sum += Math.abs(ints[j]);
-					}
-				}
-				Energy.add(sum);	
-			}	
-		}catch(ArrayIndexOutOfBoundsException ae) {
-			Energy.add(sum);
-			System.out.println("\n" + ae + " - The array of vectors is not a multiple of the sample, data loss is possible");
-		}
-		System.out.printf("\nEnergy: %s",Energy);
-		return Energy;
-	}
-	
+	/**
+	 * @param ints Массив векторов
+	 * @return Массив значений энергий за выборку α-β фильтр.
+	 */
 	public ArrayList<Double> calcEnergy_AB(int[] ints){
 		ArrayList<Integer> Energy = calcEnergy(ints);
 		int[] energy_ints = (Energy).stream().mapToInt(i->i).toArray();
@@ -84,24 +89,10 @@ public class Energy {
 		return Energy_AB;
 	}
 	
-//	public ArrayList<Double> calcEnergy_AB_anyH(int[] ints){
-//		ArrayList<Integer> Energy = calcEnergy(ints);
-//		int[] energy_ints = (Energy).stream().mapToInt(i->i).toArray();
-//		double[] energy_ints_doubles = Arrays.stream(energy_ints).asDoubleStream().toArray();
-//		ArrayList<Double> Energy_AB = new ArrayList<Double>();
-//		double X = 0;
-//		double A = 0.995;
-//		double B = 1 - A;
-//		
-//		for (int i = 0; i <= energy_ints_doubles.length-1; i++) {
-//			X = (A * X) + (B * energy_ints_doubles[i]);
-//			Energy_AB.add(X);
-//		}
-//		
-//		return Energy_AB;
-//	}
-
-	// Array for Plot Energy
+	/**
+	 * @param ints Массив векторов
+	 * @return double[ ] массив векторов для построения графиков
+	 */
 	public double[] getEnergyArrayForLinePlot(int[] ints){
 		ArrayList<Integer> Energy = calcEnergy(ints);
 		
@@ -109,20 +100,17 @@ public class Energy {
 		double[] energy_ints_doubles = Arrays.stream(energy_ints).asDoubleStream().toArray();
 		return energy_ints_doubles;
 	}
-	
+
+	/**
+	 * @param ints Массив векторов
+	 * @return double[ ] массив векторов для построения графиков α-β фильтр.
+	 */
 	public double[] getEnergyArrayForLinePlot_AB(int[] ints){
 		ArrayList<Double> Energy_AB = calcEnergy_AB(ints);
 		
 		double[] energy_double = (Energy_AB).stream().mapToDouble(d->d).toArray();
 		return energy_double;
 	}
-	
-//	public double[] getEnergyArrayForLinePlot_AB_anyH(int[] ints){
-//		ArrayList<Double> Energy_AB_anyH = calcEnergy_AB_anyH(ints);
-//		
-//		double[] energy_double = (Energy_AB_anyH).stream().mapToDouble(d->d).toArray();
-//		return energy_double;
-//	}
 	
 	/**
 	 * @param ints Массив энергии из векторов
@@ -157,7 +145,11 @@ public class Energy {
 		return Average_Energy_Y;
 	}
 		
-	// Array[][] for Plot Average Energy
+	/**
+	 * @param ints Массив энергии из векторов
+	 * @param time Период времени в часах
+	 * @return double[ ][ ] массив средних значений энергии за период времени
+	 */
 	public double[][] getAverageEnergyArrayForLinePlot(int[] ints,int time){
 		ArrayList<Integer> energy_average = calcAverageEnergyOverTime(ints,time);
 		int[] energy_average_ints = (energy_average).stream().mapToInt(i->i).toArray();
@@ -174,13 +166,20 @@ public class Energy {
 		return YX_Average_energy;
 	}
 	
+	/**
+	 * @param aX_days Массив дней
+	 * @return double[ ] Массив дней
+	 */
 	public double[] getDaysOfEnergy(int[] aX_days){
-		
 		double[] aX_days_doubles = Arrays.stream(aX_days).asDoubleStream().toArray();
-		
 		return aX_days_doubles;
 	}
 	
+	/**
+	 * 
+	 * @param array матрица
+	 * @return Поворачиваем матрицу
+	 */
     public double[][] turnToRight(double[][] array) {
     	double[][] resultArray = new double[array[0].length][array.length];
         for (int i = 0; i < array.length; i++) {
@@ -198,9 +197,8 @@ public class Energy {
      * Сравниваем значения ускорений соответсвующих друг-другу по шкале "времени", и если значение отношения более опредленного, 
      * запоминаем эти точки, по ним отмечаем маркерами на графике такие скачков активности.
      * 
-     * @return [][] Массив точек соответ. условиям выше.
+     * @return double[ ][ ] Массив точек соответ. условиям выше.
      **/
-    
     public double[][] huntingSearch(double[] Energy_AB_array, double[] AverageEnergy_3d_array){
     	/**
     	 * Находка - точки, крайние значения которых это рамки маркера скачка активности.
@@ -253,34 +251,25 @@ public class Energy {
 
 		return YX_Box_Marker;
     }
-	
-	public void getEnergyAllPlot(int[] ints, int time, int time2, int time3, int[] aX_days) throws IOException {
-		//double[] Energy = getEnergyArrayForLinePlot(ints);
+
+	/**
+	 * Строим графики энергии фитра, средних значений за N часов, дней.
+	 * @param ints Векторы
+	 * @param time Выборка (часы)
+	 * @param aX_days Дни
+	 * @throws IOException
+	 */	
+	public void getEnergyAllPlot(int[] ints, int time, int[] aX_days) throws IOException {
 		double[][] AverageEnergy_3d = turnToRight(getAverageEnergyArrayForLinePlot(ints,time));
-		//double[][] AverageEnergy_3h =  turnToRight(getAverageEnergyArrayForLinePlot(ints,time2));
-		//double[][] AverageEnergy_6h =  turnToRight(getAverageEnergyArrayForLinePlot(ints,time3));
-		//double[][] AverageEnergy_1h =  turnToRight(getAverageEnergyArrayForLinePlot(ints,time3));
-		
 		double[] Energy_AB = getEnergyArrayForLinePlot_AB(ints);
-		//double[] Energy_AB_anyH = getEnergyArrayForLinePlot_AB_anyH(ints);
-		
-		//double[][] BoxMarker = huntingSearch(getEnergyArrayForLinePlot_AB(ints), energy_average_ints_doubles);
 						
 		Plot2DPanel plot = new Plot2DPanel();
-		
 		plot.plotToolBar.setBackground(Color.WHITE);
 		plot.setBackground(Color.WHITE);
 		plot.addLegend("SOUTH");
-		
-		//plot.addLinePlot("Energy", new Color(255, 0, 0), Energy);
 		plot.addLinePlot("Energy_AB", new Color(255, 0 , 0), Energy_AB);
-		//plot.addLinePlot("Energy_AB_anyH", new Color(210,105,30), Energy_AB_anyH);
 		plot.addLinePlot("Average Energy 72h (3d)", new Color(0, 43, 255), AverageEnergy_3d);
-		//plot.addLinePlot("Average Energy 3h",  new Color(204, 204, 0), AverageEnergy_3h);
-		//plot.addLinePlot("Average Energy 6h",  new Color(255, 0, 255), AverageEnergy_6h);
-		//plot.addLinePlot("Average Energy 1h",  new Color(0, 0, 255), AverageEnergy_1h);
 		plot.addLinePlot("DAYS",  new Color(0, 0, 0), getDaysOfEnergy(aX_days));
-		//plot.addBoxPlot("Marker",new Color(255, 0, 240), BoxMarker);
 		
 		// TODO добавить в путь для сохранения локальный путь
 				
@@ -292,7 +281,6 @@ public class Energy {
         frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		frame.setBackground(Color.WHITE);
-		
 	}
 }
 

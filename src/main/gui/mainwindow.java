@@ -26,13 +26,12 @@ import main.calculations.FFT_third_party.FFT;
 import main.csv.CsvParser;
 import main.settings.Settings;
 
+/**
+ * Рисуем интерфейс приложения
+ * @author Дмитрий Трубников
+ */
 public class mainwindow extends JFrame{
-	Settings SETTINGS = new Settings();
-	
-	/**
-	 * 
-	 */
-	
+	Settings SETTINGS = new Settings();	
 	private static final long serialVersionUID = 1L;
 	protected static String Folder = null;
 
@@ -82,7 +81,6 @@ public class mainwindow extends JFrame{
 		button4.setFocusPainted(false);
 		button4.setContentAreaFilled(true);
 		
-
 		ImageIcon imageIcon = new ImageIcon(getClass().getClassLoader().getResource(SETTINGS.MAINWINDOW_IMAGE));
 		Image image = imageIcon.getImage();
 		image = image.getScaledInstance(480, 270, Image.SCALE_SMOOTH);
@@ -93,7 +91,6 @@ public class mainwindow extends JFrame{
 
 		GroupLayout layout = new GroupLayout(panel);
 		layout.setAutoCreateGaps(true);
-
 
 		///////////////////////////////////////////////////////////
 
@@ -186,7 +183,7 @@ public class mainwindow extends JFrame{
 			        String[] aX_days_new_for_energy_array = aX_days_new_for_energy.toArray(new String[0]);
 					int[] aX_days_int = Arrays.stream(aX_days_new_for_energy_array).mapToInt(Integer::parseInt).toArray();							
 
-					Energy.getEnergyAllPlot(ints,36,3,6,aX_days_int);
+					Energy.getEnergyAllPlot(ints,36,aX_days_int);
 					
 				} catch (IOException e1) {
 					e1.printStackTrace();

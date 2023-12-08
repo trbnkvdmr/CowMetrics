@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GetDays {
-	
+	/**
+	 * @param records прочитаный файл таблицы
+	 * @return Парсим дни
+	 * @throws IOException
+	 */
 	public ArrayList<String> getDays(List<String[]> records) throws IOException {
-		
 		ArrayList<String> records_days = new ArrayList<String>();
 		
 		for (String[] record : records) {

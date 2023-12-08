@@ -20,9 +20,23 @@ import com.opencsv.exceptions.CsvException;
 
 import main.settings.Settings;
 
+/**
+ * Работа с Csv кэшем
+ * <p>
+ * MergeCsv - Склеить .csv 
+ * <p>
+ * ReadCSV - Чтение файлы .csv
+ * 
+ * @author Дмитрий Трубников
+ */
 public class CsvParser {
 	Settings SETTINGS = new Settings();	
 	
+	/**
+	 * @param FOLDER_PATH Рабочая область - папка
+	 * @param OUTPUTCSV_PATH Куда сохранить
+	 * @throws FileNotFoundException
+	 */
 	public void MergeCsv(String FOLDER_PATH, String OUTPUTCSV_PATH) throws FileNotFoundException{
 
 		File FOLDER = new File(FOLDER_PATH);
@@ -51,14 +65,18 @@ public class CsvParser {
 		}
 	}
 	
-	 public List<String[]> ReadCSV(String OUTPUTCSV_PATH){
+	/**
+	 * @param PATH расположение файла
+	 * @return Буфер данных с файла .csv
+	 */
+	 public List<String[]> ReadCSV(String PATH){
 		Reader reader;
 		List<String[]> records = null;
 		
 		// FIXME Добавить проверку и выбор только .csv файликов
 		
 		try {
-			 reader = Files.newBufferedReader(Paths.get(OUTPUTCSV_PATH + SETTINGS.CSVOUTFILENAME));
+			 reader = Files.newBufferedReader(Paths.get(PATH + SETTINGS.CSVOUTFILENAME));
 			 CSVParser parser = new CSVParserBuilder()
 				        .withSeparator(';')
 				        .build();

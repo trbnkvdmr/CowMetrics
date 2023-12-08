@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GetVector {
-
+	/**
+	 * @param records прочитаный файл таблицы
+	 * @return Массив векторов
+	 * @throws IOException
+	 */
 	 public ArrayList<Integer> getVector(List<String[]> records) throws IOException{
 		 
 		 ArrayList<Integer> records_int_vector = new ArrayList<Integer>();

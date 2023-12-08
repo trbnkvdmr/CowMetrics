@@ -27,7 +27,8 @@ import main.csv.CsvParser;
 import main.settings.Settings;
 
 /**
- * Рисуем интерфейс приложения
+ * Рисуем UI
+ * 
  * @author Дмитрий Трубников
  */
 public class mainwindow extends JFrame{

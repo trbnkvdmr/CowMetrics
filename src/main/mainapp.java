@@ -6,8 +6,8 @@ import main.gui.mainwindow;
 
 /**
  * @see url <a href="https://github.com/trbnkvdmr/CowMetrics">CowMetrics - github</a>
- * @version 0.1
  * @author Dmitry_Sergeevich
+ * @version 0.1
  */
 public class mainapp {
 	public static void main(String[] args) throws IOException {

@@ -9,26 +9,19 @@ import org.math.plot.Plot2DPanel;
 import main.settings.Settings;
 
 /**
+ *
  * Класс Энергии с реализованной математикой и возможностью построения графиков. 
- * <p>
- * calcEnergy - Посчитать массив значений энергии из выборки векторов.
- * <p>
- * calcEnergy_AB - Посчитать массив значений энергии из выборки векторов используя α-β фильтр.
- * <p>
- * calcAverageEnergyOverTime - Посчитать массив средних значений энергии за период времени.
- * <p>
- * getEnergyArrayForLinePlot - Посчитать значения для построения графиков.
- * <p>
- * getEnergyArrayForLinePlot_AB - Посчитать значения для построения графиков для α-β фильтра.
- * <p>
- * getAverageEnergyArrayForLinePlot - Посчитать значения для построения графиков для средних значений энергии за период времени.
- * <p>
- * getDaysOfEnergy - Получить значения дней.
- * <p>
- * huntingSearch - Поиск охоты.
- * <p>
- * getEnergyAllPlot - Построение графиков.
- * <p>
+ * <ui>
+ * <li> calcEnergy - Посчитать массив значений энергии из выборки векторов.
+ * <li> calcEnergy_AB - Посчитать массив значений энергии из выборки векторов используя α-β фильтр.
+ * <li> calcAverageEnergyOverTime - Посчитать массив средних значений энергии за период времени.
+ * <li> getEnergyArrayForLinePlot - Посчитать значения для построения графиков.
+ * <li> getEnergyArrayForLinePlot_AB - Посчитать значения для построения графиков для α-β фильтра.
+ * <li> getAverageEnergyArrayForLinePlot - Посчитать значения для построения графиков для средних значений энергии за период времени.
+ * <li> getDaysOfEnergy - Получить значения дней.
+ * <li> huntingSearch - Поиск охоты.
+ * <li> getEnergyAllPlot - Построение графиков.
+ * </ul>
  * 
  * @author Дмитрий Трубников
  */

@@ -21,11 +21,11 @@ import com.opencsv.exceptions.CsvException;
 import main.settings.Settings;
 
 /**
- * Работа с Csv кэшем
- * <p>
- * MergeCsv - Склеить .csv 
- * <p>
- * ReadCSV - Чтение файлы .csv
+ * Работа с .Csv кэшем
+ * <ul>
+ * <li> MergeCsv - Склеить .csv 
+ * <li> ReadCSV - Чтение файлы .csv
+ * </ul>
  * 
  * @author Дмитрий Трубников
  */

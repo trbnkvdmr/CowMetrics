@@ -8,8 +8,8 @@ import java.util.ArrayList;
  * @author Dmitry_Sergeevich
  */
 public class Settings {
-	public String Folder_Path = "";
-	public String Outputcsv_Path = "";
+	public String FolderPath = "";
+	public String OutputCsvPath = "";
 	public final String CSVOUTFILENAME = "/allinone.csv";
 	public final String APPNAME = "Cow metrics analyzer";
 	public final String MAINWINDOW_ICO =   "logo.png";
@@ -21,24 +21,24 @@ public class Settings {
 	public final String BUTTON3 = "Vector";
 	public final String BUTTON4 = "Energy";
 	
-	public ArrayList<Integer> Vector_array;
-	public ArrayList<String> Day_array;
+	public ArrayList<Integer> VectorArray;
+	public ArrayList<String> DayArray;
 	
 	public int Sample_of_Energy = 3600; 						// @default 3600
-	public int Energy_filtration_threshold_value = 100;			// @default 100
+	public int EnergyFiltrationThresholdValue = 100;			// @default 100
 	
-	public float Hunting_search_trashold = (float) 1.2;
+	public float HuntingSearchTrashold = (float) 1.2;
 
-	public void setFolder(String FOLDER_PATH){
-		this.Folder_Path = FOLDER_PATH;
+	public void setFolder(String FolderPath){
+		this.FolderPath = FolderPath;
 	}
-	public void setOUTPUTCSV(String OUTPUTCSV_PATH){
-		this.Outputcsv_Path = OUTPUTCSV_PATH;
+	public void setOutputCSV(String OutputCsvPath){
+		this.OutputCsvPath = OutputCsvPath;
 	}
-	public void setVector_Array (ArrayList<Integer> array) {
-		this.Vector_array = array;
+	public void setVectorArray (ArrayList<Integer> array) {
+		this.VectorArray = array;
 	}
-	public void setDay_Array(ArrayList<String> array) {
-		this.Day_array = array;
+	public void setDayArray(ArrayList<String> array) {
+		this.DayArray = array;
 	}
 }

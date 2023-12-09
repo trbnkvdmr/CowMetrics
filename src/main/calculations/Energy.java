@@ -10,10 +10,10 @@ import main.settings.Settings;
 
 /**
  *
- * Класс Энергии с реализованной математикой и возможностью построения графиков. 
+ * Класс Энергии с реализованной математикой и возможностью построения графиков.
  * <ui>
  * <li> calcEnergy - Посчитать массив значений энергии из выборки векторов.
- * <li> calcEnergy_AB - Посчитать массив значений энергии из выборки векторов используя α-β фильтр.
+ * <li> calcEnergyAB - Посчитать массив значений энергии из выборки векторов используя α-β фильтр.
  * <li> calcAverageEnergyOverTime - Посчитать массив средних значений энергии за период времени.
  * <li> getEnergyArrayForLinePlot - Посчитать значения для построения графиков.
  * <li> getEnergyArrayForLinePlot_AB - Посчитать значения для построения графиков для α-β фильтра.
@@ -28,14 +28,14 @@ import main.settings.Settings;
 
 public class Energy {
 	Settings SETTINGS = new Settings();
-	ArrayList<Integer> Average_Energy_X = new ArrayList<Integer>();
+	ArrayList<Integer> AverageEnergyX = new ArrayList<Integer>();
 	int sum = 0;
-	double sum_AB = 0;
+	double sumAB = 0;
 	int dot = 0;
-	double dot_AB = 0;
+	double dotAB = 0;
 	ArrayList<Integer> Days = new ArrayList<Integer>();
-	int Sample_of_average_energy;
-	double[] energy_average_ints_doubles;
+	int SampleOfAverageEnergy;
+	double[] EnergyAverageIntsDoubles;
 
 	/**
 	 * @param ints Массив векторов
@@ -47,7 +47,7 @@ public class Energy {
 			for(int i = 0;i<=ints.length;i += SETTINGS.Sample_of_Energy) {
 				sum = 0;
 				for(int j = i; j<=i+SETTINGS.Sample_of_Energy;j++) {
-					if (Math.abs(ints[j]) > SETTINGS.Energy_filtration_threshold_value) {
+					if (Math.abs(ints[j]) > SETTINGS.EnergyFiltrationThresholdValue) {
 						sum += Math.abs(ints[j]);
 					}
 				}
@@ -65,7 +65,7 @@ public class Energy {
 	 * @param ints Массив векторов
 	 * @return Массив значений энергий за выборку α-β фильтр.
 	 */
-	public ArrayList<Double> calcEnergy_AB(int[] ints){
+	public ArrayList<Double> calcEnergyAB(int[] ints){
 		ArrayList<Integer> Energy = calcEnergy(ints);
 		int[] energy_ints = (Energy).stream().mapToInt(i->i).toArray();
 		double[] energy_ints_doubles = Arrays.stream(energy_ints).asDoubleStream().toArray();
@@ -99,7 +99,7 @@ public class Energy {
 	 * @return double[ ] массив векторов для построения графиков α-β фильтр.
 	 */
 	public double[] getEnergyArrayForLinePlot_AB(int[] ints){
-		ArrayList<Double> Energy_AB = calcEnergy_AB(ints);
+		ArrayList<Double> Energy_AB = calcEnergyAB(ints);
 		
 		double[] energy_double = (Energy_AB).stream().mapToDouble(d->d).toArray();
 		return energy_double;
@@ -111,30 +111,30 @@ public class Energy {
 	 * @return Массив средних значений энергии за период времени
 	 */
 	public ArrayList<Integer> calcAverageEnergyOverTime(int[] ints, int time){
-		Average_Energy_X.clear();
+		AverageEnergyX.clear();
 		ArrayList<Integer> Energy = calcEnergy(ints);
 		ArrayList<Integer> Average_Energy_Y = new ArrayList<Integer>();
 		
 		int[] energy_array_int = (Energy).stream().mapToInt(i->i).toArray();
 				
-		Sample_of_average_energy = (time * 60*60*4)/(SETTINGS.Sample_of_Energy);
+		SampleOfAverageEnergy = (time * 60*60*4)/(SETTINGS.Sample_of_Energy);
 		
 		try {
 			for (int i = 0; i<=energy_array_int.length;i+= 1 ) {
 				sum = 0;
-				dot = (i + Sample_of_average_energy);
-				Average_Energy_X.add(dot);
-				for(int j = i; j<=i+Sample_of_average_energy; j++) {
+				dot = (i + SampleOfAverageEnergy);
+				AverageEnergyX.add(dot);
+				for(int j = i; j<=i+SampleOfAverageEnergy; j++) {
 					sum += energy_array_int[j];
 				}
-				Average_Energy_Y.add((sum/Sample_of_average_energy));		
+				Average_Energy_Y.add((sum/SampleOfAverageEnergy));		
 			}	
 		}catch(ArrayIndexOutOfBoundsException ae) {
-			Average_Energy_Y.add((sum/Sample_of_average_energy));	
+			Average_Energy_Y.add((sum/SampleOfAverageEnergy));	
 			System.out.println("\n"+ae + " - The array of Average Energy is not a multiple of the sample, data loss is possible");
 		}
 		System.out.printf("\nAverage Energy of time Y: %s", Average_Energy_Y);
-		System.out.printf("\nAverage Energy of time X: %s", Average_Energy_X);
+		System.out.printf("\nAverage Energy of time X: %s", AverageEnergyX);
 		return Average_Energy_Y;
 	}
 		
@@ -146,14 +146,14 @@ public class Energy {
 	public double[][] getAverageEnergyArrayForLinePlot(int[] ints,int time){
 		ArrayList<Integer> energy_average = calcAverageEnergyOverTime(ints,time);
 		int[] energy_average_ints = (energy_average).stream().mapToInt(i->i).toArray();
-		energy_average_ints_doubles = Arrays.stream(energy_average_ints).asDoubleStream().toArray(); //Y
+		EnergyAverageIntsDoubles = Arrays.stream(energy_average_ints).asDoubleStream().toArray(); //Y
 		
-		ArrayList<Integer> X = Average_Energy_X;
+		ArrayList<Integer> X = AverageEnergyX;
 		int[] X_ints = (X).stream().mapToInt(i->i).toArray();
 		double[] X_ints_doubles = Arrays.stream(X_ints).asDoubleStream().toArray(); //X
 				
 		double[][] YX_Average_energy = new double[2][1];
-		YX_Average_energy[0] = energy_average_ints_doubles;
+		YX_Average_energy[0] = EnergyAverageIntsDoubles;
 		YX_Average_energy[1] = X_ints_doubles;
 		
 		return YX_Average_energy;
@@ -215,7 +215,7 @@ public class Energy {
 		    
 			int c = 0;
 			for(int a = 0; a <= new_3d_AverageEnergy_list.size() - 1; a++) {
-				if(((new_3d_AverageEnergy_list.get(a) != 0) && (new_3d_AverageEnergy_list.get(a) / new_Energy_AB_array_list.get(a) >= SETTINGS.Hunting_search_trashold))) {
+				if(((new_3d_AverageEnergy_list.get(a) != 0) && (new_3d_AverageEnergy_list.get(a) / new_Energy_AB_array_list.get(a) >= SETTINGS.HuntingSearchTrashold))) {
 					c++;
 					if(c == 4) {
 						
@@ -228,9 +228,9 @@ public class Energy {
 						Marker_Y.add( (double) 50000);
 						c = 0;
 						
-						/**
-						 * TODO Надо поставить метки при выполнении всех условий по индексу (тип как по шкале времени)
-						 **/
+						
+						 // TODO Надо поставить метки при выполнении всех условий по индексу (тип как по шкале времени)
+						
 				}
 			}
 		}

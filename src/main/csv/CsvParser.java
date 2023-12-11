@@ -1,6 +1,7 @@
 package main.csv;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,8 +24,8 @@ import main.settings.Settings;
 /**
  * Работа с .Csv кэшем
  * <ul>
- * <li> MergeCsv - Склеить .csv 
- * <li> ReadCSV - Чтение файлы .csv
+ * <li> MergeCsv - Есть фильтр на формат, перезаписывает общий файл.
+ * <li> ReadCSV - Парсит с разделителями ";".
  * </ul>
  * 
  * @author Дмитрий Трубников
@@ -37,13 +38,24 @@ public class CsvParser {
 	 * @param OUTPUTCSV_PATH Куда сохранить
 	 * @throws FileNotFoundException
 	 */
-	public void MergeCsv(String FOLDER_PATH, String OUTPUTCSV_PATH) throws FileNotFoundException{
-
+	public void MergeCsv(String FOLDER_PATH, String OUTPUTCSV_PATH) throws FileNotFoundException{		
 		File FOLDER = new File(FOLDER_PATH);
 		File OUTPUTCSV = new File(OUTPUTCSV_PATH + SETTINGS.CSVOUTFILENAME);
+		OUTPUTCSV.delete();
+		
+		String ext = ".csv";
+		FileFilter fileFilter = file -> file.getName().endsWith(ext);
+		File[] listFiles = FOLDER.listFiles(fileFilter);
+		
 		List<String[]> lines = new ArrayList<String[]>();
 		
-		for (File file: FOLDER.listFiles()){
+		// Files in folder:
+		System.out.println("Logs in here:");
+		for(File f: listFiles) {
+				System.out.println(f.toString().substring(39));
+		}
+		
+		for (File file: listFiles){
 			Scanner scanner = new Scanner(file);
 			while (scanner.hasNextLine()) {
 				String[] nextline = scanner.nextLine().split(",");
@@ -53,15 +65,17 @@ public class CsvParser {
 		}
 		
 		try {
-			FileWriter outputfile = new FileWriter(OUTPUTCSV);
+			FileWriter outputfile = new FileWriter(OUTPUTCSV,false);
 			try (CSVWriter writer = new CSVWriter(outputfile, ',',
                     CSVWriter.NO_QUOTE_CHARACTER,
                     CSVWriter.DEFAULT_ESCAPE_CHARACTER,
                     CSVWriter.DEFAULT_LINE_END)) {
 				writer.writeAll(lines);
+				outputfile.flush();
+				writer.flush();
 			}
-		} catch (IOException ex) {
-			ex.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -72,8 +86,6 @@ public class CsvParser {
 	 public List<String[]> ReadCSV(String PATH){
 		Reader reader;
 		List<String[]> records = null;
-		
-		// FIXME Добавить проверку и выбор только .csv файликов
 		
 		try {
 			 reader = Files.newBufferedReader(Paths.get(PATH + SETTINGS.CSVOUTFILENAME));

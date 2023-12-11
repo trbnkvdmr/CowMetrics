@@ -31,16 +31,16 @@ import main.settings.Settings;
  * 
  * @author Дмитрий Трубников
  */
-public class mainwindow extends JFrame{
+public class MainWindow extends JFrame{
 	Settings SETTINGS = new Settings();	
 	private static final long serialVersionUID = 1L;
 	protected static String Folder = null;
 
-	public void createmainwindow() throws IOException {
+	public void CreateMainWindow() throws IOException {
 
 		JFrame window = new JFrame();
 		ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource(SETTINGS.MAINWINDOW_ICO));
-		createUI(window);
+		CreateUI(window);
 		window.setIconImage(icon.getImage());
 		window.setSize(500, 380);
 		window.setTitle(SETTINGS.APPNAME);
@@ -50,7 +50,11 @@ public class mainwindow extends JFrame{
 		window.setResizable(false);
 	}
 
+<<<<<<< HEAD:src/main/gui/mainwindow.java
 	private void createUI(JFrame window) throws IOException {
+=======
+	public void CreateUI(JFrame window) throws IOException {
+>>>>>>> main:src/main/gui/MainWindow.java
 		JLabel label = new JLabel(SETTINGS.LABLEFORTEXTFIELDOFNMAINWINDOW);
 		JTextField textField = new JTextField(SETTINGS.TEXTFIEDLINMAINWINDOW, 24);
 		JButton button1 = new JButton(SETTINGS.BUTTON1);
@@ -121,7 +125,7 @@ public class mainwindow extends JFrame{
 					textField.setText(file.getAbsolutePath());
 					Folder = file.getAbsolutePath();
 					SETTINGS.setFolder(Folder);
-					SETTINGS.setOUTPUTCSV(Folder);
+					SETTINGS.setOutputCSV(Folder);
 				}
 			}
 		});
@@ -131,7 +135,7 @@ public class mainwindow extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				CsvParser csvparse = new CsvParser();	
 				try {
-					csvparse.MergeCsv(SETTINGS.Folder_Path, SETTINGS.Outputcsv_Path);
+					csvparse.MergeCsv(SETTINGS.FolderPath, SETTINGS.OutputCsvPath);
 				} catch (FileNotFoundException e1) {
 					e1.printStackTrace();
 				}
@@ -146,10 +150,10 @@ public class mainwindow extends JFrame{
 				GetDays GetDays = new GetDays();
 																
 				try {
-					SETTINGS.setVector_Array(GetVector.getVector(csvparse.ReadCSV(SETTINGS.Outputcsv_Path)));
-					SETTINGS.setDay_Array(GetDays.getDays((csvparse.ReadCSV(SETTINGS.Outputcsv_Path))));
+					SETTINGS.setVectorArray(GetVector.getVector(csvparse.ReadCSV(SETTINGS.OutputCsvPath)));
+					SETTINGS.setDayArray(GetDays.getDays((csvparse.ReadCSV(SETTINGS.OutputCsvPath))));
 			
-					int[] ints = (SETTINGS.Vector_array).stream().mapToInt(i->i).toArray();
+					int[] ints = (SETTINGS.VectorArray).stream().mapToInt(i->i).toArray();
 					double[] doubles = Arrays.stream(ints).asDoubleStream().toArray();
 					
 					FFT fft = new FFT();
@@ -169,12 +173,12 @@ public class mainwindow extends JFrame{
 				Energy Energy = new Energy();	
 								
 				try {
-					SETTINGS.setVector_Array(GetVector.getVector(csvparse.ReadCSV(SETTINGS.Outputcsv_Path)));
-					SETTINGS.setDay_Array(GetDays.getDays((csvparse.ReadCSV(SETTINGS.Outputcsv_Path))));
+					SETTINGS.setVectorArray(GetVector.getVector(csvparse.ReadCSV(SETTINGS.OutputCsvPath)));
+					SETTINGS.setDayArray(GetDays.getDays((csvparse.ReadCSV(SETTINGS.OutputCsvPath))));
 										
-					int[] ints = (SETTINGS.Vector_array).stream().mapToInt(i->i).toArray();
+					int[] ints = (SETTINGS.VectorArray).stream().mapToInt(i->i).toArray();
 									
-					ArrayList<String> aX_days = SETTINGS.Day_array;
+					ArrayList<String> aX_days = SETTINGS.DayArray;
 					ArrayList<String> aX_days_new_for_energy = new ArrayList<String>();
 					
 			        for (int i = 0; i < aX_days.size(); i+=3600) {

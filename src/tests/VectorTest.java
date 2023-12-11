@@ -18,25 +18,25 @@ import main.calculations.GetVector;
  * @author Dmitry_Sergeevich
  */
 public class VectorTest {
-	ArrayList<Integer> vector;
+	ArrayList<Integer> Vector;
 
 	@Test
 	public void getVector() {
-		GetVector getvector = new GetVector();
+		GetVector getVector = new GetVector();
 		
-		List<String[]> records = new LinkedList<>();
-		String[] string = {"null","100","100","100"};
-		records.add(string);
+		List<String[]> Records = new LinkedList<>();
+		String[] String = {"null","100","100","100"};
+		Records.add(String);
 		
 		try {
-			vector = getvector.getVector(records);
+			Vector = getVector.getVector(Records);
 		} catch (IOException e) {
 			System.out.println(e.getMessage());;
 		}
 		
-		String actual = vector.stream().map(Object::toString)
+		String Actual = Vector.stream().map(Object::toString)
                 .collect(Collectors.joining(", "));
-		String expected = "732";
-		assertEquals(expected, actual);
+		String Expected = "732";
+		assertEquals(Expected, Actual);
 	}
 }

@@ -41,7 +41,7 @@ public class Energy {
 	 * @param ints Массив векторов
 	 * @return Массив значений энергий за выборку
 	 */
-	public ArrayList<Integer> calcEnergy(int[] ints){
+	private ArrayList<Integer> calcEnergy(int[] ints){
 		ArrayList<Integer> Energy = new ArrayList<Integer>();
 		try {
 			for(int i = 0;i<=ints.length;i += SETTINGS.Sample_of_Energy) {
@@ -65,7 +65,7 @@ public class Energy {
 	 * @param ints Массив векторов
 	 * @return Массив значений энергий за выборку α-β фильтр.
 	 */
-	public ArrayList<Double> calcEnergy_AB(int[] ints){
+	private ArrayList<Double> calcEnergy_AB(int[] ints){
 		ArrayList<Integer> Energy = calcEnergy(ints);
 		int[] energy_ints = (Energy).stream().mapToInt(i->i).toArray();
 		double[] energy_ints_doubles = Arrays.stream(energy_ints).asDoubleStream().toArray();
@@ -86,19 +86,19 @@ public class Energy {
 	 * @param ints Массив векторов
 	 * @return double[ ] массив векторов для построения графиков
 	 */
-	public double[] getEnergyArrayForLinePlot(int[] ints){
-		ArrayList<Integer> Energy = calcEnergy(ints);
-		
-		int[] energy_ints = (Energy).stream().mapToInt(i->i).toArray();
-		double[] energy_ints_doubles = Arrays.stream(energy_ints).asDoubleStream().toArray();
-		return energy_ints_doubles;
-	}
+//	private double[] getEnergyArrayForLinePlot(int[] ints){
+//		ArrayList<Integer> Energy = calcEnergy(ints);
+//		
+//		int[] energy_ints = (Energy).stream().mapToInt(i->i).toArray();
+//		double[] energy_ints_doubles = Arrays.stream(energy_ints).asDoubleStream().toArray();
+//		return energy_ints_doubles;
+//	}
 
 	/**
 	 * @param ints Массив векторов
 	 * @return double[ ] массив векторов для построения графиков α-β фильтр.
 	 */
-	public double[] getEnergyArrayForLinePlot_AB(int[] ints){
+	private double[] getEnergyArrayForLinePlot_AB(int[] ints){
 		ArrayList<Double> Energy_AB = calcEnergy_AB(ints);
 		
 		double[] energy_double = (Energy_AB).stream().mapToDouble(d->d).toArray();
@@ -110,7 +110,7 @@ public class Energy {
 	 * @param time Период времени в часах
 	 * @return Массив средних значений энергии за период времени
 	 */
-	public ArrayList<Integer> calcAverageEnergyOverTime(int[] ints, int time){
+	private ArrayList<Integer> calcAverageEnergyOverTime(int[] ints, int time){
 		Average_Energy_X.clear();
 		ArrayList<Integer> Energy = calcEnergy(ints);
 		ArrayList<Integer> Average_Energy_Y = new ArrayList<Integer>();
@@ -143,7 +143,7 @@ public class Energy {
 	 * @param time Период времени в часах
 	 * @return double[ ][ ] массив средних значений энергии за период времени
 	 */
-	public double[][] getAverageEnergyArrayForLinePlot(int[] ints,int time){
+	private double[][] getAverageEnergyArrayForLinePlot(int[] ints,int time){
 		ArrayList<Integer> energy_average = calcAverageEnergyOverTime(ints,time);
 		int[] energy_average_ints = (energy_average).stream().mapToInt(i->i).toArray();
 		energy_average_ints_doubles = Arrays.stream(energy_average_ints).asDoubleStream().toArray(); //Y
@@ -163,7 +163,7 @@ public class Energy {
 	 * @param aX_days Массив дней
 	 * @return double[ ] Массив дней
 	 */
-	public double[] getDaysOfEnergy(int[] aX_days){
+	private double[] getDaysOfEnergy(int[] aX_days){
 		double[] aX_days_doubles = Arrays.stream(aX_days).asDoubleStream().toArray();
 		return aX_days_doubles;
 	}
@@ -173,7 +173,7 @@ public class Energy {
 	 * @param array матрица
 	 * @return Поворачиваем матрицу
 	 */
-    public double[][] turnToRight(double[][] array) {
+    private double[][] turnToRight(double[][] array) {
     	double[][] resultArray = new double[array[0].length][array.length];
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
@@ -192,7 +192,7 @@ public class Energy {
      * 
      * @return double[ ][ ] Массив точек соответ. условиям выше.
      **/
-    public double[][] huntingSearch(double[] Energy_AB_array, double[] AverageEnergy_3d_array){
+    private double[][] huntingSearch(double[] Energy_AB_array, double[] AverageEnergy_3d_array){
     	/**
     	 * Находка - точки, крайние значения которых это рамки маркера скачка активности.
     	 **/

@@ -50,15 +50,7 @@ public class MainWindow extends JFrame{
 		window.setResizable(false);
 	}
 
-<<<<<<< HEAD:src/main/gui/mainwindow.java
-<<<<<<< HEAD:src/main/gui/mainwindow.java
-	private void createUI(JFrame window) throws IOException {
-=======
-	public void CreateUI(JFrame window) throws IOException {
->>>>>>> main:src/main/gui/MainWindow.java
-=======
-	public void CreateUI(JFrame window) throws IOException {
->>>>>>> main:src/main/gui/MainWindow.java
+	private void CreateUI(JFrame window) throws IOException {
 		JLabel label = new JLabel(SETTINGS.LABLEFORTEXTFIELDOFNMAINWINDOW);
 		JTextField textField = new JTextField(SETTINGS.TEXTFIEDLINMAINWINDOW, 24);
 		JButton button1 = new JButton(SETTINGS.BUTTON1);

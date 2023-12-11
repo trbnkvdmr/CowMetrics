@@ -24,7 +24,7 @@ public class Settings {
 	public ArrayList<Integer> VectorArray;
 	public ArrayList<String> DayArray;
 	
-	public int Sample_of_Energy = 3600; 						// @default 3600
+	public int SampleOfEnergy = 3600; 						// @default 3600
 	public int EnergyFiltrationThresholdValue = 100;			// @default 100
 	
 	public float HuntingSearchTrashold = (float) 1.2;

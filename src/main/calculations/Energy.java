@@ -3,9 +3,12 @@ import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+
 import org.math.plot.Plot2DPanel;
+
 import main.settings.Settings;
 
 /**
@@ -44,9 +47,9 @@ public class Energy {
 	private ArrayList<Integer> calcEnergy(int[] ints){
 		ArrayList<Integer> Energy = new ArrayList<Integer>();
 		try {
-			for(int i = 0;i<=ints.length;i += SETTINGS.Sample_of_Energy) {
+			for(int i = 0;i<=ints.length;i += SETTINGS.SampleOfEnergy) {
 				sum = 0;
-				for(int j = i; j<=i+SETTINGS.Sample_of_Energy;j++) {
+				for(int j = i; j<=i+SETTINGS.SampleOfEnergy;j++) {
 					if (Math.abs(ints[j]) > SETTINGS.EnergyFiltrationThresholdValue) {
 						sum += Math.abs(ints[j]);
 					}
@@ -65,15 +68,8 @@ public class Energy {
 	 * @param ints Массив векторов
 	 * @return Массив значений энергий за выборку α-β фильтр.
 	 */
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 	private ArrayList<Double> calcEnergy_AB(int[] ints){
-=======
-	public ArrayList<Double> calcEnergyAB(int[] ints){
->>>>>>> main
-=======
-	public ArrayList<Double> calcEnergyAB(int[] ints){
->>>>>>> main
 		ArrayList<Integer> Energy = calcEnergy(ints);
 		int[] energy_ints = (Energy).stream().mapToInt(i->i).toArray();
 		double[] energy_ints_doubles = Arrays.stream(energy_ints).asDoubleStream().toArray();
@@ -106,18 +102,9 @@ public class Energy {
 	 * @param ints Массив векторов
 	 * @return double[ ] массив векторов для построения графиков α-β фильтр.
 	 */
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 	private double[] getEnergyArrayForLinePlot_AB(int[] ints){
 		ArrayList<Double> Energy_AB = calcEnergy_AB(ints);
-=======
-	public double[] getEnergyArrayForLinePlot_AB(int[] ints){
-		ArrayList<Double> Energy_AB = calcEnergyAB(ints);
->>>>>>> main
-=======
-	public double[] getEnergyArrayForLinePlot_AB(int[] ints){
-		ArrayList<Double> Energy_AB = calcEnergyAB(ints);
->>>>>>> main
 		
 		double[] energy_double = (Energy_AB).stream().mapToDouble(d->d).toArray();
 		return energy_double;
@@ -128,24 +115,15 @@ public class Energy {
 	 * @param time Период времени в часах
 	 * @return Массив средних значений энергии за период времени
 	 */
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 	private ArrayList<Integer> calcAverageEnergyOverTime(int[] ints, int time){
-		Average_Energy_X.clear();
-=======
-	public ArrayList<Integer> calcAverageEnergyOverTime(int[] ints, int time){
 		AverageEnergyX.clear();
->>>>>>> main
-=======
-	public ArrayList<Integer> calcAverageEnergyOverTime(int[] ints, int time){
-		AverageEnergyX.clear();
->>>>>>> main
 		ArrayList<Integer> Energy = calcEnergy(ints);
 		ArrayList<Integer> Average_Energy_Y = new ArrayList<Integer>();
 		
 		int[] energy_array_int = (Energy).stream().mapToInt(i->i).toArray();
 				
-		SampleOfAverageEnergy = (time * 60*60*4)/(SETTINGS.Sample_of_Energy);
+		SampleOfAverageEnergy = (time * 60*60*4)/(SETTINGS.SampleOfEnergy);
 		
 		try {
 			for (int i = 0; i<=energy_array_int.length;i+= 1 ) {
@@ -220,58 +198,58 @@ public class Energy {
      * 
      * @return double[ ][ ] Массив точек соответ. условиям выше.
      **/
-    private double[][] huntingSearch(double[] Energy_AB_array, double[] AverageEnergy_3d_array){
-    	/**
-    	 * Находка - точки, крайние значения которых это рамки маркера скачка активности.
-    	 **/
-    	ArrayList<Double> new_3d_AverageEnergy_list = new ArrayList<Double>();
-    	for(double d : AverageEnergy_3d_array) new_3d_AverageEnergy_list.add(d);
-    	
-    	ArrayList<Double> new_Energy_AB_array_list = new ArrayList<Double>();
-    	for(double d : Energy_AB_array) new_Energy_AB_array_list.add(d);
-
-    	ArrayList<Double> Marker_X = new ArrayList<Double>();
-    	ArrayList<Double> Marker_Y = new ArrayList<Double>();
-    	
-    	int sizeUP = new_Energy_AB_array_list.size() - new_3d_AverageEnergy_list.size();
-    	
-    	int i = 0;
-		for(i=0; i<= sizeUP - 1;i++) {
-			
-			new_3d_AverageEnergy_list.add(0, (double) 0);
-			} 
-		    
-			int c = 0;
-			for(int a = 0; a <= new_3d_AverageEnergy_list.size() - 1; a++) {
-				if(((new_3d_AverageEnergy_list.get(a) != 0) && (new_3d_AverageEnergy_list.get(a) / new_Energy_AB_array_list.get(a) >= SETTINGS.HuntingSearchTrashold))) {
-					c++;
-					if(c == 4) {
-						
-						/**
-						 * 
-						 **/
-						
-						double index = new_3d_AverageEnergy_list.indexOf((double)a);
-						Marker_X.add(index);
-						Marker_Y.add( (double) 50000);
-						c = 0;
-						
-						
-						 // TODO Надо поставить метки при выполнении всех условий по индексу (тип как по шкале времени)
-						
-				}
-			}
-		}
-		
-		double[] Marker_X_double = (Marker_X).stream().mapToDouble(d->d).toArray();
-		double[] Marker_Y_double = (Marker_Y).stream().mapToDouble(d->d).toArray();
-		
-		double[][] YX_Box_Marker = new double[2][1];
-		YX_Box_Marker[0] = Marker_X_double;
-		YX_Box_Marker[1] = Marker_Y_double;
-
-		return YX_Box_Marker;
-    }
+//    private double[][] huntingSearch(double[] Energy_AB_array, double[] AverageEnergy_3d_array){
+//    	/**
+//    	 * Находка - точки, крайние значения которых это рамки маркера скачка активности.
+//    	 **/
+//    	ArrayList<Double> new_3d_AverageEnergy_list = new ArrayList<Double>();
+//    	for(double d : AverageEnergy_3d_array) new_3d_AverageEnergy_list.add(d);
+//    	
+//    	ArrayList<Double> new_Energy_AB_array_list = new ArrayList<Double>();
+//    	for(double d : Energy_AB_array) new_Energy_AB_array_list.add(d);
+//
+//    	ArrayList<Double> Marker_X = new ArrayList<Double>();
+//    	ArrayList<Double> Marker_Y = new ArrayList<Double>();
+//    	
+//    	int sizeUP = new_Energy_AB_array_list.size() - new_3d_AverageEnergy_list.size();
+//    	
+//    	int i = 0;
+//		for(i=0; i<= sizeUP - 1;i++) {
+//			
+//			new_3d_AverageEnergy_list.add(0, (double) 0);
+//			} 
+//		    
+//			int c = 0;
+//			for(int a = 0; a <= new_3d_AverageEnergy_list.size() - 1; a++) {
+//				if(((new_3d_AverageEnergy_list.get(a) != 0) && (new_3d_AverageEnergy_list.get(a) / new_Energy_AB_array_list.get(a) >= SETTINGS.HuntingSearchTrashold))) {
+//					c++;
+//					if(c == 4) {
+//						
+//						/**
+//						 * 
+//						 **/
+//						
+//						double index = new_3d_AverageEnergy_list.indexOf((double)a);
+//						Marker_X.add(index);
+//						Marker_Y.add( (double) 50000);
+//						c = 0;
+//						
+//						
+//						 // TODO Надо поставить метки при выполнении всех условий по индексу (тип как по шкале времени)
+//						
+//				}
+//			}
+//		}
+//		
+//		double[] Marker_X_double = (Marker_X).stream().mapToDouble(d->d).toArray();
+//		double[] Marker_Y_double = (Marker_Y).stream().mapToDouble(d->d).toArray();
+//		
+//		double[][] YX_Box_Marker = new double[2][1];
+//		YX_Box_Marker[0] = Marker_X_double;
+//		YX_Box_Marker[1] = Marker_Y_double;
+//
+//		return YX_Box_Marker;
+//    }
 
 	/**
 	 * Строим графики энергии фитра, средних значений за N часов, дней.

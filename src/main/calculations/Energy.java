@@ -66,7 +66,11 @@ public class Energy {
 	 * @return Массив значений энергий за выборку α-β фильтр.
 	 */
 <<<<<<< HEAD
+<<<<<<< HEAD
 	private ArrayList<Double> calcEnergy_AB(int[] ints){
+=======
+	public ArrayList<Double> calcEnergyAB(int[] ints){
+>>>>>>> main
 =======
 	public ArrayList<Double> calcEnergyAB(int[] ints){
 >>>>>>> main
@@ -103,8 +107,13 @@ public class Energy {
 	 * @return double[ ] массив векторов для построения графиков α-β фильтр.
 	 */
 <<<<<<< HEAD
+<<<<<<< HEAD
 	private double[] getEnergyArrayForLinePlot_AB(int[] ints){
 		ArrayList<Double> Energy_AB = calcEnergy_AB(ints);
+=======
+	public double[] getEnergyArrayForLinePlot_AB(int[] ints){
+		ArrayList<Double> Energy_AB = calcEnergyAB(ints);
+>>>>>>> main
 =======
 	public double[] getEnergyArrayForLinePlot_AB(int[] ints){
 		ArrayList<Double> Energy_AB = calcEnergyAB(ints);
@@ -120,8 +129,13 @@ public class Energy {
 	 * @return Массив средних значений энергии за период времени
 	 */
 <<<<<<< HEAD
+<<<<<<< HEAD
 	private ArrayList<Integer> calcAverageEnergyOverTime(int[] ints, int time){
 		Average_Energy_X.clear();
+=======
+	public ArrayList<Integer> calcAverageEnergyOverTime(int[] ints, int time){
+		AverageEnergyX.clear();
+>>>>>>> main
 =======
 	public ArrayList<Integer> calcAverageEnergyOverTime(int[] ints, int time){
 		AverageEnergyX.clear();

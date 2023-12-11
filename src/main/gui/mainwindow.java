@@ -51,7 +51,11 @@ public class MainWindow extends JFrame{
 	}
 
 <<<<<<< HEAD:src/main/gui/mainwindow.java
+<<<<<<< HEAD:src/main/gui/mainwindow.java
 	private void createUI(JFrame window) throws IOException {
+=======
+	public void CreateUI(JFrame window) throws IOException {
+>>>>>>> main:src/main/gui/MainWindow.java
 =======
 	public void CreateUI(JFrame window) throws IOException {
 >>>>>>> main:src/main/gui/MainWindow.java
